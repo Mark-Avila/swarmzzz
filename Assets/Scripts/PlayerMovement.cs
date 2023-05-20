@@ -21,6 +21,17 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         rigidBody.MovePosition(rigidBody.position + movement * speed * Time.fixedDeltaTime);
+
+        Debug.Log("y: " + movement.y + "   " + "x: " + movement.x);
+
+        if (movement.x == 0 && movement.y == 0)
+        {
+            animator.SetBool("isMoving", false);
+        }
+        else
+        {
+            animator.SetBool("isMoving", true);
+        }
     } 
 
     public Vector2 GetPosition()
