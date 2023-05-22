@@ -19,6 +19,7 @@ public class ZombieSwarm : MonoBehaviour
     private Vector2 gBestPosition;
     private float gBestFitness;
     private Rigidbody2D targetRb;
+    private int swarmSize;
 
     void Start()
     {
@@ -27,16 +28,9 @@ public class ZombieSwarm : MonoBehaviour
         // Initialize the zombies list
         zombies = new List<ZombieMovement>();
 
-        // Find all zombies in the scene and add them to the list
-        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Tiny Zombie");
+        ResetZombies();
 
-        foreach (GameObject zombie in zombieObjects)
-        {
-            ZombieMovement newZombie = zombie.GetComponent<ZombieMovement>();
-            zombies.Add(newZombie);
-        }
-
-        int swarmSize = zombies.Count;
+        swarmSize = zombies.Count;
 
         targetRb = target.GetComponent<Rigidbody2D>();
 
@@ -59,7 +53,11 @@ public class ZombieSwarm : MonoBehaviour
 
     void ResetValues()
     {
-        int swarmSize = zombies.Count;
+        zombies.Clear();
+
+        swarmSize = GameObject.FindGameObjectsWithTag("Tiny Zombie").Length;
+
+        ResetZombies();
 
         // Initialize the particle swarm optimization parameters
         positions = new Vector2[swarmSize];
@@ -78,10 +76,22 @@ public class ZombieSwarm : MonoBehaviour
         }
     }
 
+    void ResetZombies()
+    {
+        // Find all zombies in the scene and add them to the list
+        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Tiny Zombie");
+
+        foreach (GameObject zombie in zombieObjects)
+        {
+            ZombieMovement newZombie = zombie.GetComponent<ZombieMovement>();
+            zombies.Add(newZombie);
+        }
+    }
+
     void FixedUpdate()
     {
         // Update the positions and velocities of the zombies using particle swarm optimization
-        for (int i = 0; i < zombies.Count; i++)
+        for (int i = 0; i < swarmSize; i++)
         {
             Vector2 predictedPosition = (Vector2)target.transform.position + targetRb.velocity;
 
@@ -110,8 +120,10 @@ public class ZombieSwarm : MonoBehaviour
             // Update the position of the current zombie
             positions[i] += velocities[i] * Time.fixedDeltaTime;
 
-            //TODO: Modify for RigidBody
-            zombies[i].MoveTowards(positions[i], maxSpeed);
+            if (zombies[i])
+            {
+                zombies[i].MoveTowards(positions[i], maxSpeed);
+            }
         }
     }
 }
