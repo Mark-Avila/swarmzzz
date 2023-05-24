@@ -4,8 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Undead
-  - Tiny Zombie
+  - Zombie
   layers:
   - Default
   - TransparentFX

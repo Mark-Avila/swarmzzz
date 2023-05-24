@@ -5,34 +5,33 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody2D rigidBody;
+    //public Rigidbody2D rigidBody;
+    public Transform player;
     public Animator animator;
     public float speed = 5f;
-    Vector2 movement;
-    Vector2 previousPosition;
-
+    public float smoothing = 0.1f;
+    
+    private Vector2 previousPosition;
     private Vector2 moveInput;
+    private Rigidbody2D playerRb;
+    private Vector2 targetVelocity;
 
     // Update is called once per frame
     private void Start()
     {
-        previousPosition = rigidBody.position;
+        previousPosition = player.position;
+        playerRb = player.GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
-        rigidBody.MovePosition(rigidBody.position + moveInput * speed * Time.fixedDeltaTime);
+        //playerRb.MovePosition(playerRb.position + moveInput * speed * Time.fixedDeltaTime);
+        targetVelocity = Vector2.Lerp(targetVelocity, moveInput * speed, smoothing);
+        playerRb.velocity = targetVelocity;
 
-        if (rigidBody.position == previousPosition)
-        {
-            animator.SetBool("isMoving", false);
-        }
-        else
-        {
-            animator.SetBool("isMoving", true);
-        }
+        animator.SetBool("isMoving", playerRb.velocity.magnitude > 0f);
 
-        previousPosition = rigidBody.position;
+        previousPosition = playerRb.position;
 
         FaceTowardsMouse();
     }
@@ -40,11 +39,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnMove(InputValue inputValue)
     {
         moveInput = inputValue.Get<Vector2>();
-    }
-
-    public Vector2 GetPosition()
-    {
-        return transform.position;
     }
 
     private void FaceTowardsMouse()
@@ -55,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = worldMousePosition - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        player.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
 }

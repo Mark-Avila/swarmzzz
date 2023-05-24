@@ -10,13 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4041760623250350980}
   - component: {fileID: 4041760623250350978}
+  - component: {fileID: 4041760623250350976}
   - component: {fileID: 4041760623250350981}
   - component: {fileID: 4041760623250350979}
-  - component: {fileID: 4041760623250350976}
   - component: {fileID: 4041760623250350977}
+  - component: {fileID: -5415154732164948442}
   m_Layer: 0
   m_Name: Zombie
-  m_TagString: Tiny Zombie
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57,6 +58,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4041760623250350976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041760623250350983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43a06230c0b79c4ea0235e220df7f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7080028334194159346, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
+  maxRayDistance: 1
+  steer: {fileID: -5415154732164948442}
 --- !u!212 &4041760623250350981
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -130,21 +146,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4041760623250350976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4041760623250350983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d43a06230c0b79c4ea0235e220df7f51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  raycastDistance: 2
-  maxRayDistance: 1
 --- !u!61 &4041760623250350977
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -171,3 +172,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.4}
   m_EdgeRadius: 0
+--- !u!114 &-5415154732164948442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041760623250350983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9630c82429b433439fb7d5e1707df0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steeringParameters:
+    _contextMapResolution: 12
+    ContextMapRotationAxis: 0
+  TicksPerSecond: 10
+  directionSelector: 0
+  MinDotPerTick: 0.3

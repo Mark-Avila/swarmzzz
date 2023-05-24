@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Friedforfun.ContextSteering.PlanarMovement;
 
 public class ZombieMovement : MonoBehaviour
 {
     public Transform player;
-    public float raycastDistance = 2f;
     public float maxRayDistance = 1.0f;
+    public SelfSchedulingPlanarController steer;
 
     private Rigidbody2D rb;
 
@@ -43,60 +42,69 @@ public class ZombieMovement : MonoBehaviour
         RaycastHit2D hitDown = Physics2D.Raycast(transform.position + new Vector3(0, -offset, 0), Vector2.down, maxRayDistance);
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position + new Vector3(offset, 0, 0), Vector2.right, maxRayDistance);
 
+        Debug.DrawRay(transform.position + new Vector3(0, offset, 0), Vector2.up * maxRayDistance, Color.red);
+        Debug.DrawRay(transform.position + new Vector3(-offset, 0, 0), Vector2.left * maxRayDistance, Color.red);
+        Debug.DrawRay(transform.position + new Vector3(0, -offset, 0), Vector2.down * maxRayDistance, Color.red);
+        Debug.DrawRay(transform.position + new Vector3(offset, 0, 0), Vector2.right * maxRayDistance, Color.red);
+
+
         ////// Calculate the direction towards the target position
         Vector2 direction = targetPosition - rb.position;
 
+        float turnSpeed = 30f;
+
         // Check if each raycast hit a collider that is not the player nor another zombie
-        if (hitRight.collider != null && hitRight.collider.name != "Player" && !hitRight.collider.CompareTag("Tiny Zombie"))
+        if (hitRight.collider != null && hitRight.collider.name != "Player" && !hitRight.collider.CompareTag("Zombie"))
         {
+
             float degrees = GetAngle(direction);
 
             if (degrees >= 90f && degrees <= 180f)
             {
-                rb.AddForce(maxSpeed * 80 * Time.fixedDeltaTime * Vector2.down);
+                rb.AddForce(maxSpeed * turnSpeed * Time.fixedDeltaTime * Vector2.down);
             }
             else
             {
-                rb.AddForce(maxSpeed * 80 * Time.fixedDeltaTime * Vector2.up);
+                rb.AddForce(maxSpeed * turnSpeed * Time.fixedDeltaTime * Vector2.up);
             }
         }
-        else if (hitLeft.collider != null && hitLeft.collider.name != "player" && !hitLeft.collider.CompareTag("Tiny Zombie"))
+        else if (hitLeft.collider != null && hitLeft.collider.name != "player" && !hitLeft.collider.CompareTag("Zombie"))
         {
             float degrees = GetAngle(direction);
 
             if (degrees >= 0f && degrees <= 90f)
             {
-                rb.AddForce(maxSpeed * 80 * Time.fixedDeltaTime * Vector2.down);
+                rb.AddForce(maxSpeed * turnSpeed * Time.fixedDeltaTime * Vector2.down);
             }
             else
             {
-                rb.AddForce(maxSpeed * 80 * Time.fixedDeltaTime * Vector2.up);
+                rb.AddForce(maxSpeed * turnSpeed * Time.fixedDeltaTime * Vector2.up);
             }
         }
-        else if (hitTop.collider != null && hitTop.collider.name != "Player" && !hitTop.collider.CompareTag("Tiny Zombie"))
+        else if (hitTop.collider != null && hitTop.collider.name != "Player" && !hitTop.collider.CompareTag("Zombie"))
         {
             float degrees = GetAngle(direction);
 
             if (degrees >= 0f && degrees <= -90f)
             {
-                rb.AddForce(maxSpeed * 80 * Time.fixedDeltaTime * Vector2.left);
+                rb.AddForce(maxSpeed * turnSpeed * Time.fixedDeltaTime * Vector2.left);
             }
             else
             {
-                rb.AddForce(maxSpeed * 80 * Time.fixedDeltaTime * Vector2.right);
+                rb.AddForce(maxSpeed * turnSpeed * Time.fixedDeltaTime * Vector2.right);
             }
         }
-        else if (hitDown.collider != null && hitDown.collider.name != "Player" && !hitDown.collider.CompareTag("Tiny Zombie"))
+        else if (hitDown.collider != null && hitDown.collider.name != "Player" && !hitDown.collider.CompareTag("Zombie"))
         {
             float degrees = GetAngle(direction);
 
             if (degrees >= 90f && degrees <= 180f)
             {
-                rb.AddForce(maxSpeed * 80 * Time.fixedDeltaTime * Vector2.right);
+                rb.AddForce(maxSpeed * turnSpeed * Time.fixedDeltaTime * Vector2.right);
             }
             else
             {
-                rb.AddForce(maxSpeed * 80 * Time.fixedDeltaTime * Vector2.left);
+                rb.AddForce(maxSpeed * turnSpeed * Time.fixedDeltaTime * Vector2.left);
             }
         }
         else

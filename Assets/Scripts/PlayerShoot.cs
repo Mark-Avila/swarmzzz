@@ -5,27 +5,28 @@ using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public GameObject bullet;
-    public float bulletSpeed;
-    public Transform offset;
-    public float timeBetweenShots;
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private Transform offset;
+    [SerializeField] private float timeBetweenShots;
+    [SerializeField] private AudioClip shootAudio;
 
-    private bool continuous;
-    private float timeLastFire;
+    private bool _continuous;
+    private float _timeLastFire;
 
     // Update is called once per frame
     void Update()
     {
-        if (continuous)
+        if (_continuous)
         {
-
-            float timeSinceLastFire = Time.time - timeLastFire;
+            float timeSinceLastFire = Time.time - _timeLastFire;
 
             if (timeSinceLastFire >= timeBetweenShots)
             {
+                AudioManager.Instance.PlayAudio(shootAudio);
                 FireBullet();
 
-                timeLastFire = Time.time;
+                _timeLastFire = Time.time;
             }
         }        
     }
@@ -40,6 +41,6 @@ public class PlayerShoot : MonoBehaviour
 
     private void OnFire(InputValue inputValue)
     {
-        continuous = inputValue.isPressed;
+        _continuous = inputValue.isPressed;
     } 
 }

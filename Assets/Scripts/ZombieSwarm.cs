@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class ZombieSwarm : MonoBehaviour
 {
-    public GameObject target; // The player GameObject
-    
-    //public int swarmSize; // Number of zombies in the swarm
-    public float maxSpeed; // Maximum speed of the zombies
-    public float maxForce; // Maximum force that can be applied to the zombies
+    [SerializeField] private GameObject target; // The player GameObject
+    [SerializeField] private GameObject zombie;
+    [SerializeField] private int maxZombies = 5;
+    [SerializeField] private float maxSpeed; // Maximum speed of the zombies
+    [SerializeField] private float maxForce; // Maximum force that can be applied to the zombies
+    [SerializeField] private AudioClip zombieAudio; // Maximum force that can be applied to the zombies
 
     private List<ZombieMovement> zombies; // List of all zombies in the swarm
 
@@ -21,14 +22,17 @@ public class ZombieSwarm : MonoBehaviour
     private Rigidbody2D targetRb;
     private int swarmSize;
 
-    void Start()
+    void Awake()
     {
-        InvokeRepeating(nameof(ResetValues), 0.5f, 0.5f);
-
         // Initialize the zombies list
         zombies = new List<ZombieMovement>();
 
-        ResetZombies();
+        for (int i = 0; i < maxZombies; i++)
+        {
+            GameObject instZombie = CreateZombie();
+            ZombieMovement newZombie = instZombie.GetComponent<ZombieMovement>();
+            zombies.Add(newZombie);
+        }
 
         swarmSize = zombies.Count;
 
@@ -51,11 +55,20 @@ public class ZombieSwarm : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        InvokeRepeating(nameof(ResetValues), 0.5f, 0.5f);
+
+        AudioManager.Instance.PlayAudio(zombieAudio);
+    }
+
     void ResetValues()
     {
         zombies.Clear();
 
-        swarmSize = GameObject.FindGameObjectsWithTag("Tiny Zombie").Length;
+        zombies = new List<ZombieMovement>();
+
+        swarmSize = transform.childCount;
 
         ResetZombies();
 
@@ -69,23 +82,42 @@ public class ZombieSwarm : MonoBehaviour
         // Initialize the positions and velocities of the zombies
         for (int i = 0; i < swarmSize; i++)
         {
-            positions[i] = zombies[i].transform.position;
+            if (zombies[i])
+            {
+                positions[i] = zombies[i].transform.position;
+            } else
+            {
+                positions[i] = Vector2.zero;
+            }
             velocities[i] = Random.insideUnitCircle * maxSpeed;
             pBestPositions[i] = positions[i];
             pBestFitness[i] = Mathf.Infinity;
         }
     }
 
-    void ResetZombies()
+    private void ResetZombies()
     {
-        // Find all zombies in the scene and add them to the list
-        GameObject[] zombieObjects = GameObject.FindGameObjectsWithTag("Tiny Zombie");
+        int count = transform.childCount;
 
-        foreach (GameObject zombie in zombieObjects)
+        for (int i = 0; i < count; i++)
         {
-            ZombieMovement newZombie = zombie.GetComponent<ZombieMovement>();
-            zombies.Add(newZombie);
+            Transform child = transform.GetChild(i);
+            ZombieMovement currZombie = child.GetComponent<ZombieMovement>();
+
+            zombies.Add(currZombie);
         }
+    }
+
+    private GameObject CreateZombie()
+    {
+        GameObject newZombie = Instantiate(zombie, transform);
+
+        newZombie.transform.parent = transform;
+
+        newZombie.transform.localPosition = Vector2.zero;
+        newZombie.transform.localRotation = Quaternion.identity;
+
+        return newZombie;
     }
 
     void FixedUpdate()
