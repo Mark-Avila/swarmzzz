@@ -9,7 +9,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float bulletSpeed;
     [SerializeField] private Transform offset;
     [SerializeField] private float timeBetweenShots;
-    [SerializeField] private AudioClip shootAudio;
+    [SerializeField] private AudioClip[] shootAudios;
 
     private bool _continuous;
     private float _timeLastFire;
@@ -23,7 +23,10 @@ public class PlayerShoot : MonoBehaviour
 
             if (timeSinceLastFire >= timeBetweenShots)
             {
-                AudioManager.Instance.PlayAudio(shootAudio);
+                int randomIndex = Random.Range(0, shootAudios.Length);
+                AudioClip randomGunSound = shootAudios[randomIndex];
+
+                AudioManager.Instance.PlayAudio2d(randomGunSound);
                 FireBullet();
 
                 _timeLastFire = Time.time;

@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317648951495555381}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.8429585, y: 0.22808054, z: 0.07448479}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -45,5 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  zombie: {fileID: 4041760623250350983, guid: 36ab8e8db33af3b40ae6b5d9d9652000, type: 3}
+  maxZombies: 5
   maxSpeed: 18
   maxForce: 100
+  zombieAudio: {fileID: 8300000, guid: c63cd96db38aa6d4886c41ff6f541155, type: 3}
