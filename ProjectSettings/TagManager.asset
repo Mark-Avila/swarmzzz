@@ -45,12 +45,21 @@ TagManager:
   - name: Background
     uniqueID: 3977429745
     locked: 0
+  - name: Road
+    uniqueID: 3540689995
+    locked: 0
   - name: Player
     uniqueID: 3189054843
     locked: 0
   - name: Enemy
     uniqueID: 3112277889
     locked: 0
-  - name: Obstacles
+  - name: Ground
     uniqueID: 2234711721
+    locked: 0
+  - name: Tree
+    uniqueID: 342033101
+    locked: 0
+  - name: Roof
+    uniqueID: 2530264787
     locked: 0
