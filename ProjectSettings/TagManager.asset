@@ -54,6 +54,9 @@ TagManager:
   - name: Enemy
     uniqueID: 3112277889
     locked: 0
+  - name: Obstacles
+    uniqueID: 1205844087
+    locked: 0
   - name: Ground
     uniqueID: 2234711721
     locked: 0
