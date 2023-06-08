@@ -13,9 +13,12 @@ public class BulletMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<ZombieMovement>())
+        if (collision.GetComponentInChildren<EnemyHitpoints>())
         {
-            Destroy(collision.gameObject);
+            EnemyHitpoints enemy = collision.GetComponentInChildren<EnemyHitpoints>();
+            enemy.Bump((transform.up - enemy.transform.up).normalized);
+
+            enemy.TakeDamage();
             Destroy(gameObject);
         }
     }
@@ -28,7 +31,6 @@ public class BulletMovement : MonoBehaviour
     private void DestroyOnInvisible()
     {
         Vector2 screenPos = camera.WorldToScreenPoint(transform.position);
-
         if (screenPos.x < 0 || screenPos.x > camera.pixelWidth || screenPos.y < 0 || screenPos.y > camera.pixelHeight)
         {
             Destroy(gameObject);

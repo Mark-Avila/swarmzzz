@@ -1,16 +1,17 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieSwarm : MonoBehaviour
+public class AlienSwarm : MonoBehaviour
 {
-    [SerializeField] private GameObject target; // The player GameObject
-    [SerializeField] private GameObject zombie;
-    [SerializeField] private int maxZombies = 5;
-    [SerializeField] private float maxSpeed; // Maximum speed of the zombies
-    [SerializeField] private float maxForce; // Maximum force that can be applied to the zombies
-    [SerializeField] private AudioClip zombieAudio; // Maximum force that can be applied to the zombies
+    [SerializeField] private GameObject target;
+    [SerializeField] private GameObject alien;
+    [Tooltip("No. of Aliens")] [SerializeField] private int alienNo = 5;
+    [SerializeField] private float maxSpeed;
+    [SerializeField] private float maxForce;
+    //[SerializeField] private AudioClip alienAudio; 
 
-    private List<ZombieMovement> zombies; // List of all zombies in the swarm
+    private List<AlienMovement> aliens;
 
     // Particle Swarm Optimization parameters
     private Vector2[] positions;
@@ -22,19 +23,19 @@ public class ZombieSwarm : MonoBehaviour
     private Rigidbody2D targetRb;
     private int swarmSize;
 
+    // Start is called before the first frame update
     void Awake()
     {
-        // Initialize the zombies list
-        zombies = new List<ZombieMovement>();
+        aliens = new List<AlienMovement>();
 
-        for (int i = 0; i < maxZombies; i++)
+        for (int i = 0; i < alienNo; i++)
         {
-            GameObject instZombie = CreateZombie();
-            ZombieMovement newZombie = instZombie.GetComponentInChildren<ZombieMovement>();
-            zombies.Add(newZombie);
+            GameObject instAlien = CreateAlien();
+            AlienMovement newAlien = instAlien.GetComponentInChildren<AlienMovement>();
+            aliens.Add(newAlien);
         }
 
-        swarmSize = zombies.Count;
+        swarmSize = aliens.Count;
 
         targetRb = target.GetComponent<Rigidbody2D>();
 
@@ -48,29 +49,22 @@ public class ZombieSwarm : MonoBehaviour
         // Initialize the positions and velocities of the zombies
         for (int i = 0; i < swarmSize; i++)
         {
-            positions[i] = zombies[i].transform.position;
+            positions[i] = aliens[i].transform.position;
             velocities[i] = Random.insideUnitCircle * maxSpeed;
             pBestPositions[i] = positions[i];
             pBestFitness[i] = Mathf.Infinity;
         }
     }
 
-    void Start()
-    {
-        InvokeRepeating(nameof(ResetValues), 0.5f, 0.5f);
-
-        AudioManager.Instance.PlayAudio3d(zombieAudio);
-    }
-
     void ResetValues()
     {
-        zombies.Clear();
+        aliens.Clear();
 
-        zombies = new List<ZombieMovement>();
+        aliens = new List<AlienMovement>();
 
         swarmSize = transform.childCount;
 
-        ResetZombies();
+        ResetAliens();
 
         // Initialize the particle swarm optimization parameters
         positions = new Vector2[swarmSize];
@@ -82,10 +76,10 @@ public class ZombieSwarm : MonoBehaviour
         // Initialize the positions and velocities of the zombies
         for (int i = 0; i < swarmSize; i++)
         {
-            if (zombies[i])
+            if (aliens[i])
             {
-                positions[i] = zombies[i].transform.position;
-            } 
+                positions[i] = aliens[i].transform.position;
+            }
             else
             {
                 positions[i] = Vector2.zero;
@@ -96,29 +90,35 @@ public class ZombieSwarm : MonoBehaviour
         }
     }
 
-    private void ResetZombies()
+    private void ResetAliens()
     {
         int count = transform.childCount;
 
         for (int i = 0; i < count; i++)
         {
             Transform child = transform.GetChild(i);
-            ZombieMovement currZombie = child.GetComponentInChildren<ZombieMovement>();
+            AlienMovement currAlien = child.GetComponentInChildren<AlienMovement>();
 
-            zombies.Add(currZombie);
+            aliens.Add(currAlien);
         }
     }
 
-    private GameObject CreateZombie()
+    private GameObject CreateAlien()
     {
-        GameObject newZombie = Instantiate(zombie, transform);
+        GameObject newAlien = Instantiate(alien, transform);
 
-        newZombie.transform.parent = transform;
+        newAlien.transform.parent = transform;
+        newAlien.transform.localPosition = Vector2.zero;
+        newAlien.transform.localRotation = Quaternion.identity;
 
-        newZombie.transform.localPosition = Vector2.zero;
-        newZombie.transform.localRotation = Quaternion.identity;
+        return newAlien;
+    }
 
-        return newZombie;
+    void Start()
+    {
+        InvokeRepeating(nameof(ResetValues), 5f, 5f);
+
+        //AudioManager.Instance.PlayAudio3d(zombieAudio);
     }
 
     void FixedUpdate()
@@ -153,9 +153,9 @@ public class ZombieSwarm : MonoBehaviour
             // Update the position of the current zombie
             positions[i] += velocities[i] * Time.fixedDeltaTime;
 
-            if (zombies[i])
+            if (aliens[i])
             {
-                zombies[i].MoveTowards(positions[i], maxSpeed);
+                aliens[i].MoveTowards(positions[i], maxSpeed);
             }
         }
     }

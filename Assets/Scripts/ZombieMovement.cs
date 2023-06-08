@@ -3,24 +3,23 @@ using Friedforfun.ContextSteering.PlanarMovement;
 
 public class ZombieMovement : MonoBehaviour
 {
-    public Transform player;
-    public float maxRayDistance = 1.0f;
-    public SelfSchedulingPlanarController steer;
+    [SerializeField] private Transform player;
+    [SerializeField] private float maxRayDistance = 1.0f;
+    [SerializeField] private SelfSchedulingPlanarController steer;
+    [Tooltip("Rigid body")] [SerializeField] private Transform parent;
 
     private Rigidbody2D rb;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-
-        Flip();
+        rb = parent.GetComponent<Rigidbody2D>();
     }
 
     private void FaceTowardsVelocity()
     {
         Vector2 velocity = rb.velocity;
         float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle + -90f, Vector3.forward);
+        parent.rotation = Quaternion.AngleAxis(angle + -90f, Vector3.forward);
     }
 
     public void MoveTowards(Vector2 targetPosition, float maxSpeed)
@@ -37,15 +36,15 @@ public class ZombieMovement : MonoBehaviour
         float offset = 1.0f;
 
         //// Perform a raycast in each of the four directions (top, left, down, and right)
-        RaycastHit2D hitTop = Physics2D.Raycast(transform.position + new Vector3(0, offset, 0), Vector2.up, maxRayDistance);
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position + new Vector3(-offset, 0, 0), Vector2.left, maxRayDistance);
-        RaycastHit2D hitDown = Physics2D.Raycast(transform.position + new Vector3(0, -offset, 0), Vector2.down, maxRayDistance);
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position + new Vector3(offset, 0, 0), Vector2.right, maxRayDistance);
+        RaycastHit2D hitTop = Physics2D.Raycast(parent.position + new Vector3(0, offset, 0), Vector2.up, maxRayDistance);
+        RaycastHit2D hitLeft = Physics2D.Raycast(parent.position + new Vector3(-offset, 0, 0), Vector2.left, maxRayDistance);
+        RaycastHit2D hitDown = Physics2D.Raycast(parent.position + new Vector3(0, -offset, 0), Vector2.down, maxRayDistance);
+        RaycastHit2D hitRight = Physics2D.Raycast(parent.position + new Vector3(offset, 0, 0), Vector2.right, maxRayDistance);
 
-        Debug.DrawRay(transform.position + new Vector3(0, offset, 0), Vector2.up * maxRayDistance, Color.red);
-        Debug.DrawRay(transform.position + new Vector3(-offset, 0, 0), Vector2.left * maxRayDistance, Color.red);
-        Debug.DrawRay(transform.position + new Vector3(0, -offset, 0), Vector2.down * maxRayDistance, Color.red);
-        Debug.DrawRay(transform.position + new Vector3(offset, 0, 0), Vector2.right * maxRayDistance, Color.red);
+        Debug.DrawRay(parent.position + new Vector3(0, offset, 0), Vector2.up * maxRayDistance, Color.red);
+        Debug.DrawRay(parent.position + new Vector3(-offset, 0, 0), Vector2.left * maxRayDistance, Color.red);
+        Debug.DrawRay(parent.position + new Vector3(0, -offset, 0), Vector2.down * maxRayDistance, Color.red);
+        Debug.DrawRay(parent.position + new Vector3(offset, 0, 0), Vector2.right * maxRayDistance, Color.red);
 
 
         ////// Calculate the direction towards the target position
@@ -109,16 +108,10 @@ public class ZombieMovement : MonoBehaviour
         }
         else
         {
-            rb.AddForce(maxSpeed * 10 * Time.fixedDeltaTime * direction);
+            rb.AddForce(maxSpeed * 7 * Time.fixedDeltaTime * direction);
         }
 
         FaceTowardsVelocity();
-
-        //direction = (Vector2)transform.position - (Vector2)player.transform.position;
-        //float radians = Mathf.Atan2(direction.y, direction.x);
-        //float degrees = radians * Mathf.Rad2Deg;
-
-        //rb.AddForce(maxSpeed * 10 * Time.fixedDeltaTime * direction);
     }
 
     private float GetAngle(Vector2 direction)
