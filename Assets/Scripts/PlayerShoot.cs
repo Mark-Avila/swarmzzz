@@ -1,22 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
 
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [SerializeField] private float bulletSpeed;
     [SerializeField] private Transform offset;
-    [SerializeField] private float timeBetweenShots;
-    [SerializeField] private AudioClip[] shootAudios;
     [SerializeField] private PlayerShootLight playerShootLight;
     [SerializeField] private PlayerWeapon playerWeapon;
 
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private float timeBetweenShots;
+
+    [SerializeField] private AudioClip[] shootAudios;
+    [SerializeField] private AudioClip reloadAudio;
+
+    [SerializeField] private int maxAmmoCapacity = 120;
+    [SerializeField] private int maxMagazineCapacity = 30;
+
+    [SerializeField] private TextMeshProUGUI text;
+
+    private int currentAmmo;
+    private int currentMag;
+
     private bool _continuous;
     private float _timeLastFire;
-    
+
+    private void Start()
+    {
+        currentAmmo = maxAmmoCapacity;
+        currentMag = maxMagazineCapacity;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -33,7 +48,7 @@ public class PlayerShoot : MonoBehaviour
 
                 playerShootLight.FlashGun();
 
-                FireBullet();
+                HandleShoot();
 
                 _timeLastFire = Time.time;
 
@@ -41,37 +56,92 @@ public class PlayerShoot : MonoBehaviour
         }        
     }
 
-    private void FireBullet()
+    private void HandleShoot()
     {
-        if (playerWeapon.GetCurrentWeapon() == Weapon.item_shotgun)
+        Weapon currentWeapon = playerWeapon.GetCurrentWeapon();
+
+        if (currentWeapon == Weapon.item_pistol)
         {
-            FireShotgun();
+            FireBullet();
         }
         else
         {
-            GameObject newBullet = Instantiate(bullet, offset.position, transform.rotation);
-            Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
+            if (currentMag > 0)
+            {
+                if (playerWeapon.GetCurrentWeapon() == Weapon.item_shotgun)
+                {
+                    FireShotgun();
+                }
+                else
+                {
+                    FireBullet();
+                }
 
-            rb.velocity = bulletSpeed * transform.right;
+                currentMag--;
+
+                text.SetText($"<b>Ammo:</b> {currentMag}/{currentAmmo}");
+
+                if (currentMag <= 0)
+                {
+                    Reload();
+                }
+            } else
+            {
+                Reload();
+            }
         }
+
+    }
+
+    private void Reload()
+    {
+        if (currentAmmo > 0 && currentMag < maxMagazineCapacity)
+        {
+            // Calculate the number of rounds to reload
+            int roundsToReload = Mathf.Min(maxMagazineCapacity - currentMag, currentAmmo);
+
+            // Deduct ammo from the total and add to the magazine
+            currentAmmo -= roundsToReload;
+            currentMag += roundsToReload;
+
+            text.SetText($"<b>Ammo:</b> {currentMag}/{currentAmmo}");
+        } else
+        {
+            text.SetText("<b>Ammo:</b> Infinite");
+            playerWeapon.SwitchWeapon(Weapon.item_pistol);
+        }
+
+        AudioManager.Instance.PlayAudio2d(reloadAudio);
+    }
+
+    public void FireBullet()
+    {
+        GameObject newBullet = Instantiate(bullet, offset.position, transform.rotation);
+        Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
+
+        rb.velocity = bulletSpeed * transform.right;
+    }
+
+    public void SetAmmo(int newMagSize, int newAmmoSize)
+    {
+        maxMagazineCapacity = currentMag = newMagSize;
+        maxAmmoCapacity = currentAmmo = newAmmoSize;
+
+        text.SetText($"<b>Ammo:</b> {currentMag}/{currentAmmo}");
     }
 
     private void FireShotgun()
     {
-        // Instantiate the center bullet
         GameObject centerBullet = Instantiate(bullet, offset.position, transform.rotation);
         Rigidbody2D centerBulletRB = centerBullet.GetComponent<Rigidbody2D>();
         centerBulletRB.velocity = bulletSpeed * transform.right;
 
-        // Calculate the angle for the angled bullets
         float angle = 15f; // Adjust this value to control the angle of the angled bullets
 
-        // Instantiate the first angled bullet
         GameObject angledBullet1 = Instantiate(bullet, offset.position, transform.rotation * Quaternion.Euler(0f, 0f, angle));
         Rigidbody2D angledBullet1RB = angledBullet1.GetComponent<Rigidbody2D>();
         angledBullet1RB.velocity = Quaternion.Euler(0f, 0f, angle) * transform.right * bulletSpeed;
 
-        // Instantiate the second angled bullet
         GameObject angledBullet2 = Instantiate(bullet, offset.position, transform.rotation * Quaternion.Euler(0f, 0f, -angle));
         Rigidbody2D angledBullet2RB = angledBullet2.GetComponent<Rigidbody2D>();
         angledBullet2RB.velocity = Quaternion.Euler(0f, 0f, -angle) * transform.right * bulletSpeed;
