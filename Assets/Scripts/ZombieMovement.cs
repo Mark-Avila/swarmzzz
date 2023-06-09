@@ -1,11 +1,9 @@
 using UnityEngine;
-using Friedforfun.ContextSteering.PlanarMovement;
 
 public class ZombieMovement : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private float maxRayDistance = 1.0f;
-    [SerializeField] private SelfSchedulingPlanarController steer;
     [Tooltip("Rigid body")] [SerializeField] private Transform parent;
 
     private Rigidbody2D rb;

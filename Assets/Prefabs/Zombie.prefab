@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 457593667}
-  - component: {fileID: 457593669}
   - component: {fileID: 457593668}
   m_Layer: 8
   m_Name: Movement
@@ -33,24 +32,6 @@ Transform:
   m_Father: {fileID: 4041760623250350980}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &457593669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457593666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9630c82429b433439fb7d5e1707df0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  steeringParameters:
-    _contextMapResolution: 12
-    ContextMapRotationAxis: 0
-  TicksPerSecond: 10
-  directionSelector: 0
-  MinDotPerTick: 0.3
 --- !u!114 &457593668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 7080028334194159346, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
   maxRayDistance: 1
-  steer: {fileID: 457593669}
   parent: {fileID: 4041760623250350980}
 --- !u!1 &2763139666804138972
 GameObject:

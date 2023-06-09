@@ -32,10 +32,12 @@ public class PlayerWeapon : MonoBehaviour
         switch (currentWeapon)
         {
             case Weapon.item_smg:
+                playerShoot.ResetReload();
                 playerShoot.SetAmmo(maxSmgMag, maxSmgAmmo);
                 playerShoot.setTimeBetweenShots(0.1f);
                 break;
             case Weapon.item_shotgun:
+                playerShoot.ResetReload();
                 playerShoot.SetAmmo(maxShotgunMag, maxShotgunAmmo);
                 playerShoot.setTimeBetweenShots(0.5f);
                 break;

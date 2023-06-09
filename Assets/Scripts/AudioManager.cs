@@ -75,4 +75,9 @@ public class AudioManager : MonoBehaviour
     {
         quickAudio.PlayOneShot(clip);
     }
+
+    public void StopQuickAudio()
+    {
+        quickAudio.Stop();
+    }
 }

@@ -29,6 +29,7 @@ public class PlayerShoot : MonoBehaviour
     private float _timeLastFire;
 
     private bool canShoot = true;
+    private Coroutine reloadCourotine;
 
     private void Start()
     {
@@ -105,7 +106,16 @@ public class PlayerShoot : MonoBehaviour
 
     }
 
-    private IEnumerator HandleReload()
+    public void ResetReload()
+    {
+        if (reloadCourotine != null)
+        {
+            AudioManager.Instance.StopQuickAudio();
+            StopCoroutine(reloadCourotine);
+        }
+    }
+
+    private IEnumerator ReloadCourotine()
     {
         canShoot = false;  // Disable shooting
 
@@ -130,11 +140,12 @@ public class PlayerShoot : MonoBehaviour
         }
 
         canShoot = true;  // Enable shooting again
+        reloadCourotine = null;
     }
     private void Reload()
     {
         AudioManager.Instance.PlayQuickAudio(reloadAudio);
-        StartCoroutine(HandleReload());
+        reloadCourotine = StartCoroutine(ReloadCourotine());
     }
 
     public void FireBullet()
