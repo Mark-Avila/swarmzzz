@@ -27,7 +27,7 @@ public class AlienSwarm : MonoBehaviour
     {
         InvokeRepeating(nameof(ResetValues), 5f, 5f);
 
-        AudioManager.Instance.PlayAudioLoop2d(alienAudio);
+        AudioManager.Instance.PlayAudioClip(alienAudio);
     }
 
     // Start is called before the first frame update
@@ -97,27 +97,28 @@ public class AlienSwarm : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        int count = transform.childCount;
+
+        if (count == 0)
+        {
+            AudioManager.Instance.StopAudioClip(alienAudio);
+            Destroy(gameObject);
+        }
+    }
+
     private void ResetAliens()
     {
         int count = transform.childCount;
 
-        Debug.Log(count);
-
-        if (count == 0)
+        for (int i = 0; i < count; i++)
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            for (int i = 0; i < count; i++)
-            {
-                Transform child = transform.GetChild(i);
-                AlienMovement currAlien = child.GetComponentInChildren<AlienMovement>();
+            Transform child = transform.GetChild(i);
+            AlienMovement currAlien = child.GetComponentInChildren<AlienMovement>();
 
-                aliens.Add(currAlien);
-            }
+            aliens.Add(currAlien);
         }
-
     }
 
     private GameObject CreateAlien()

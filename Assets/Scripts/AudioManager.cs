@@ -6,10 +6,13 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    [SerializeField] private AudioSource effectSource2d;
-    [SerializeField] private AudioSource effectSource3d;
-    [SerializeField] private AudioSource loopSource2d;
     [SerializeField] private Transform listener;
+
+    //Used for one-shot audio (eg. gun sounds, damage sounds)
+    [SerializeField] private AudioSource quickAudio;
+    
+    //Used for handling multiple long loop audio (zombie sound effects)
+    private List<AudioSource> audioSources = new();
 
     private void Awake()
     {
@@ -24,26 +27,52 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayAudioClip(AudioClip clip)
+    {
+        AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
+        newAudioSource.clip = clip;
+        newAudioSource.loop = true;
+        newAudioSource.volume = 0.25f;
+        newAudioSource.Play();
+
+        audioSources.Add(newAudioSource);
+    }
+
+    public void StopAudioClip(AudioClip clip)
+    {
+        foreach (AudioSource audioSource in audioSources)
+        {
+            if (audioSource.clip == clip)
+            {
+                audioSource.Stop();
+                audioSources.Remove(audioSource);
+                Destroy(audioSource);
+                break;
+            }
+        }
+    }
+
+    public void StopAllAudioClips()
+    {
+        // Stop and destroy all AudioSources
+        foreach (AudioSource audioSource in audioSources)
+        {
+            audioSource.Stop();
+            Destroy(audioSource);
+        }
+
+        // Clear the list
+        audioSources.Clear();
+    }
+
+
     //public void FixedUpdate()
     //{
     //    this.transform.position = listener.position;
     //}
 
-    public void PlayAudio2d(AudioClip clip)
+    public void PlayQuickAudio(AudioClip clip)
     {
-        effectSource2d.PlayOneShot(clip);
+        quickAudio.PlayOneShot(clip);
     }
-    public void PlayAudio3d(AudioClip clip)
-    {
-        effectSource3d.PlayOneShot(clip);
-    }
-
-    public void PlayAudioLoop2d(AudioClip clip)
-    {
-        loopSource2d.PlayOneShot(clip);
-    }
-
-    //public class Audio2d {
-        
-    //}
 }

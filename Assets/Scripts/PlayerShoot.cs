@@ -50,7 +50,7 @@ public class PlayerShoot : MonoBehaviour
                     int randomIndex = Random.Range(0, shootAudios.Length);
                     AudioClip randomGunSound = shootAudios[randomIndex];
 
-                    AudioManager.Instance.PlayAudio2d(randomGunSound);
+                    AudioManager.Instance.PlayQuickAudio(randomGunSound);
 
                     playerShootLight.FlashGun();
 
@@ -133,7 +133,7 @@ public class PlayerShoot : MonoBehaviour
     }
     private void Reload()
     {
-        AudioManager.Instance.PlayAudio2d(reloadAudio);
+        AudioManager.Instance.PlayQuickAudio(reloadAudio);
         StartCoroutine(HandleReload());
     }
 

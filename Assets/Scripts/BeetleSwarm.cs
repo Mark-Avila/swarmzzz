@@ -94,29 +94,30 @@ public class BeetleSwarm : MonoBehaviour
     {
         InvokeRepeating(nameof(ResetValues), 3f, 3f);
 
-        AudioManager.Instance.PlayAudioLoop2d(beetlesAudio);
+        AudioManager.Instance.PlayAudioClip(beetlesAudio);
+    }
+
+    private void Update()
+    {
+        int count = transform.childCount;
+
+        if (count == 0)
+        {
+            AudioManager.Instance.StopAudioClip(beetlesAudio);
+            Destroy(gameObject);
+        }
     }
 
     private void ResetBeetles()
     {
         int count = transform.childCount;
 
-        Debug.Log(count);
-
-        if (count == 0)
+        for (int i = 0; i < count; i++)
         {
-            beetlesAudio
-            Destroy(gameObject);
-        }
-        else
-        {
-            for (int i = 0; i < count; i++)
-            {
-                Transform child = transform.GetChild(i);
-                BeetleMovement currBeetle = child.GetComponentInChildren<BeetleMovement>();
+            Transform child = transform.GetChild(i);
+            BeetleMovement currBeetle = child.GetComponentInChildren<BeetleMovement>();
 
-                beetles.Add(currBeetle);
-            }
+            beetles.Add(currBeetle);
         }
 
     }

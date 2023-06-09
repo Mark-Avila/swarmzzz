@@ -59,7 +59,7 @@ public class ZombieSwarm : MonoBehaviour
     {
         InvokeRepeating(nameof(ResetValues), 0.5f, 0.5f);
 
-        AudioManager.Instance.PlayAudioLoop2d(zombieAudio);
+        AudioManager.Instance.PlayAudioClip(zombieAudio);
     }
 
     void ResetValues()
@@ -93,6 +93,17 @@ public class ZombieSwarm : MonoBehaviour
             velocities[i] = Random.insideUnitCircle * maxSpeed;
             pBestPositions[i] = positions[i];
             pBestFitness[i] = Mathf.Infinity;
+        }
+    }
+
+    private void Update()
+    {
+        int count = transform.childCount;
+
+        if (count == 0)
+        {
+            AudioManager.Instance.StopAudioClip(zombieAudio);
+            Destroy(gameObject);
         }
     }
 

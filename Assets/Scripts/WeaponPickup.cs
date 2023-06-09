@@ -13,9 +13,7 @@ public class WeaponPickup : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerWeapon.SwitchWeapon(weapon);
-
-            AudioManager.Instance.PlayAudio2d(pickUpAudio);
-
+            AudioManager.Instance.PlayQuickAudio(pickUpAudio);
             Destroy(gameObject);
         }
     }
