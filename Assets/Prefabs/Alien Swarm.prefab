@@ -47,5 +47,6 @@ MonoBehaviour:
   target: {fileID: 0}
   alien: {fileID: 7429583010728453336, guid: 902e10c0803d9114faec0993c631358e, type: 3}
   alienNo: 10
-  maxSpeed: 15
-  maxForce: 2
+  maxSpeed: 5
+  maxForce: 100
+  alienAudio: {fileID: 8300000, guid: 2cb45f13d9a2d2e4bbb0e5e2bba5d1fb, type: 3}

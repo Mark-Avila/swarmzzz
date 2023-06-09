@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   beetle: {fileID: 8221281651460832038, guid: 75c7acad113c5b0418f9ba4c58bc685b, type: 3}
-  alienNo: 10
-  maxSpeed: 16
+  alienNo: 25
+  maxSpeed: 20
   maxForce: 100
+  beetlesAudio: {fileID: 8300000, guid: 20372cff3f480044199fadede56f9fc8, type: 3}

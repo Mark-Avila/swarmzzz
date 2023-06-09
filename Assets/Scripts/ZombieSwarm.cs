@@ -59,7 +59,7 @@ public class ZombieSwarm : MonoBehaviour
     {
         InvokeRepeating(nameof(ResetValues), 0.5f, 0.5f);
 
-        AudioManager.Instance.PlayAudio3d(zombieAudio);
+        AudioManager.Instance.PlayAudioLoop2d(zombieAudio);
     }
 
     void ResetValues()

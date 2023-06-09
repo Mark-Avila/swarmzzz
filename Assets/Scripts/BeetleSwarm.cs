@@ -9,7 +9,7 @@ public class BeetleSwarm : MonoBehaviour
      [Tooltip("No. of Aliens"), SerializeField] private int alienNo = 5;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float maxForce;
-    //[SerializeField] private AudioClip alienAudio; 
+    [SerializeField] private AudioClip beetlesAudio;
 
     private List<BeetleMovement> beetles;
 
@@ -90,17 +90,35 @@ public class BeetleSwarm : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        InvokeRepeating(nameof(ResetValues), 3f, 3f);
+
+        AudioManager.Instance.PlayAudioLoop2d(beetlesAudio);
+    }
+
     private void ResetBeetles()
     {
         int count = transform.childCount;
 
-        for (int i = 0; i < count; i++)
-        {
-            Transform child = transform.GetChild(i);
-            BeetleMovement currBeetle= child.GetComponentInChildren<BeetleMovement>();
+        Debug.Log(count);
 
-            beetles.Add(currBeetle);
+        if (count == 0)
+        {
+            beetlesAudio
+            Destroy(gameObject);
         }
+        else
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Transform child = transform.GetChild(i);
+                BeetleMovement currBeetle = child.GetComponentInChildren<BeetleMovement>();
+
+                beetles.Add(currBeetle);
+            }
+        }
+
     }
 
     private GameObject CreateAlien()
@@ -112,13 +130,6 @@ public class BeetleSwarm : MonoBehaviour
         newBeetle.transform.localRotation = Quaternion.identity;
 
         return newBeetle;
-    }
-
-    void Start()
-    {
-        InvokeRepeating(nameof(ResetValues), 3f, 3f);
-
-        //AudioManager.Instance.PlayAudio3d(zombieAudio);
     }
 
     void FixedUpdate()

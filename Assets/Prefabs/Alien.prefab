@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a94698dd7917ed4bbc84168bb029673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitpoints: 1
+  hitpoints: 5
   parent: {fileID: 7429583010728453336}
   onHitForce: 3
 --- !u!1 &7429583010449612980

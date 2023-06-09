@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
+    [SerializeField] private float reloadDelay = 2f;
     [SerializeField] private Transform offset;
     [SerializeField] private PlayerShootLight playerShootLight;
     [SerializeField] private PlayerWeapon playerWeapon;
@@ -26,6 +28,8 @@ public class PlayerShoot : MonoBehaviour
     private bool _continuous;
     private float _timeLastFire;
 
+    private bool canShoot = true;
+
     private void Start()
     {
         currentAmmo = maxAmmoCapacity;
@@ -39,20 +43,28 @@ public class PlayerShoot : MonoBehaviour
         {
             float timeSinceLastFire = Time.time - _timeLastFire;
 
-            if (timeSinceLastFire >= timeBetweenShots)
+            if (canShoot)
             {
-                int randomIndex = Random.Range(0, shootAudios.Length);
-                AudioClip randomGunSound = shootAudios[randomIndex];
+                if (timeSinceLastFire >= timeBetweenShots)
+                {
+                    int randomIndex = Random.Range(0, shootAudios.Length);
+                    AudioClip randomGunSound = shootAudios[randomIndex];
 
-                AudioManager.Instance.PlayAudio2d(randomGunSound);
+                    AudioManager.Instance.PlayAudio2d(randomGunSound);
 
-                playerShootLight.FlashGun();
+                    playerShootLight.FlashGun();
 
-                HandleShoot();
+                    HandleShoot();
 
-                _timeLastFire = Time.time;
+                    _timeLastFire = Time.time;
+
+                }
+            } else
+            {
 
             }
+
+            
         }        
     }
 
@@ -93,8 +105,13 @@ public class PlayerShoot : MonoBehaviour
 
     }
 
-    private void Reload()
+    private IEnumerator HandleReload()
     {
+        canShoot = false;  // Disable shooting
+
+        // Wait for the reload time
+        yield return new WaitForSeconds(reloadDelay);
+
         if (currentAmmo > 0 && currentMag < maxMagazineCapacity)
         {
             // Calculate the number of rounds to reload
@@ -105,13 +122,19 @@ public class PlayerShoot : MonoBehaviour
             currentMag += roundsToReload;
 
             text.SetText($"<b>Ammo:</b> {currentMag}/{currentAmmo}");
-        } else
+        }
+        else
         {
             text.SetText("<b>Ammo:</b> Infinite");
             playerWeapon.SwitchWeapon(Weapon.item_pistol);
         }
 
+        canShoot = true;  // Enable shooting again
+    }
+    private void Reload()
+    {
         AudioManager.Instance.PlayAudio2d(reloadAudio);
+        StartCoroutine(HandleReload());
     }
 
     public void FireBullet()

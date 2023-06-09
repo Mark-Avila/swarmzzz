@@ -9,7 +9,7 @@ public class AlienSwarm : MonoBehaviour
     [Tooltip("No. of Aliens")] [SerializeField] private int alienNo = 5;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float maxForce;
-    //[SerializeField] private AudioClip alienAudio; 
+    [SerializeField] private AudioClip alienAudio;
 
     private List<AlienMovement> aliens;
 
@@ -22,6 +22,13 @@ public class AlienSwarm : MonoBehaviour
     private float gBestFitness;
     private Rigidbody2D targetRb;
     private int swarmSize;
+
+    void Start()
+    {
+        InvokeRepeating(nameof(ResetValues), 5f, 5f);
+
+        AudioManager.Instance.PlayAudioLoop2d(alienAudio);
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -94,13 +101,23 @@ public class AlienSwarm : MonoBehaviour
     {
         int count = transform.childCount;
 
-        for (int i = 0; i < count; i++)
-        {
-            Transform child = transform.GetChild(i);
-            AlienMovement currAlien = child.GetComponentInChildren<AlienMovement>();
+        Debug.Log(count);
 
-            aliens.Add(currAlien);
+        if (count == 0)
+        {
+            Destroy(gameObject);
         }
+        else
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Transform child = transform.GetChild(i);
+                AlienMovement currAlien = child.GetComponentInChildren<AlienMovement>();
+
+                aliens.Add(currAlien);
+            }
+        }
+
     }
 
     private GameObject CreateAlien()
@@ -112,13 +129,6 @@ public class AlienSwarm : MonoBehaviour
         newAlien.transform.localRotation = Quaternion.identity;
 
         return newAlien;
-    }
-
-    void Start()
-    {
-        InvokeRepeating(nameof(ResetValues), 5f, 5f);
-
-        //AudioManager.Instance.PlayAudio3d(zombieAudio);
     }
 
     void FixedUpdate()

@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioSource effectSource2d;
     [SerializeField] private AudioSource effectSource3d;
+    [SerializeField] private AudioSource loopSource2d;
     [SerializeField] private Transform listener;
 
     private void Awake()
@@ -36,4 +37,13 @@ public class AudioManager : MonoBehaviour
     {
         effectSource3d.PlayOneShot(clip);
     }
+
+    public void PlayAudioLoop2d(AudioClip clip)
+    {
+        loopSource2d.PlayOneShot(clip);
+    }
+
+    //public class Audio2d {
+        
+    //}
 }
