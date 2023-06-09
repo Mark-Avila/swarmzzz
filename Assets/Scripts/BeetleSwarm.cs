@@ -5,7 +5,7 @@ using UnityEngine;
 public class BeetleSwarm : MonoBehaviour
 {
     [SerializeField] private GameObject target;
-    [SerializeField] private GameObject alien;
+    [SerializeField] private GameObject beetle;
      [Tooltip("No. of Aliens"), SerializeField] private int alienNo = 5;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float maxForce;
@@ -64,7 +64,7 @@ public class BeetleSwarm : MonoBehaviour
 
         swarmSize = transform.childCount;
 
-        ResetAliens();
+        ResetBeetles();
 
         // Initialize the particle swarm optimization parameters
         positions = new Vector2[swarmSize];
@@ -90,7 +90,7 @@ public class BeetleSwarm : MonoBehaviour
         }
     }
 
-    private void ResetAliens()
+    private void ResetBeetles()
     {
         int count = transform.childCount;
 
@@ -105,7 +105,7 @@ public class BeetleSwarm : MonoBehaviour
 
     private GameObject CreateAlien()
     {
-        GameObject newBeetle= Instantiate(alien, transform);
+        GameObject newBeetle= Instantiate(beetle, transform);
 
         newBeetle.transform.parent = transform;
         newBeetle.transform.localPosition = Vector2.zero;
@@ -116,7 +116,7 @@ public class BeetleSwarm : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating(nameof(ResetValues), 5f, 5f);
+        InvokeRepeating(nameof(ResetValues), 3f, 3f);
 
         //AudioManager.Instance.PlayAudio3d(zombieAudio);
     }
@@ -155,7 +155,7 @@ public class BeetleSwarm : MonoBehaviour
 
             if (beetles[i])
             {
-                beetles[i].MoveTowards(positions[i], maxSpeed);
+                beetles[i].MoveToPosition(positions[i]);
             }
         }
     }

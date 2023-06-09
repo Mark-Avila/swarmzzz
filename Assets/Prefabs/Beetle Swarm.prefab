@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  alien: {fileID: 8221281651460832038, guid: 75c7acad113c5b0418f9ba4c58bc685b, type: 3}
-  alienNo: 5
+  beetle: {fileID: 8221281651460832038, guid: 75c7acad113c5b0418f9ba4c58bc685b, type: 3}
+  alienNo: 10
   maxSpeed: 16
   maxForce: 100
