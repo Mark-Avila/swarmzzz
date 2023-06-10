@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BulletMovement : MonoBehaviour
 {
+    [SerializeField] private int damage;
     private new Camera camera;
 
     private void Awake()
@@ -17,8 +18,7 @@ public class BulletMovement : MonoBehaviour
         {
             EnemyHitpoints enemy = collision.GetComponentInChildren<EnemyHitpoints>();
             enemy.Bump((transform.up - enemy.transform.up).normalized);
-
-            enemy.TakeDamage();
+            enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
     }

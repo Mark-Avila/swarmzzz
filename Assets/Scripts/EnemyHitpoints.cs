@@ -8,6 +8,7 @@ public class EnemyHitpoints : MonoBehaviour
     [SerializeField] private GameObject parent;
     [SerializeField] private float onHitForce = 5f;
 
+    private int damage;
     private Rigidbody2D rb;
     private EnemyFlash enemyFlash;
 
@@ -17,9 +18,9 @@ public class EnemyHitpoints : MonoBehaviour
         rb = parent.GetComponent<Rigidbody2D>();
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
-        hitpoints--;
+        hitpoints -= damage;
 
         if (hitpoints <= 0)
         {

@@ -5,21 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
-    [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject pistolBullet;
+    [SerializeField] private GameObject shotgunBullet;
+    [SerializeField] private GameObject smgBullet;
+
     [SerializeField] private float reloadDelay = 2f;
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private float timeBetweenShots;
+    [SerializeField] private int bulletDamage;
+    [SerializeField] private int maxAmmoCapacity = 120;
+    [SerializeField] private int maxMagazineCapacity = 30;
     [SerializeField] private Transform offset;
     [SerializeField] private PlayerShootLight playerShootLight;
     [SerializeField] private PlayerWeapon playerWeapon;
-
-    [SerializeField] private float bulletSpeed;
-    [SerializeField] private float timeBetweenShots;
-
     [SerializeField] private AudioClip[] shootAudios;
     [SerializeField] private AudioClip reloadAudio;
-
-    [SerializeField] private int maxAmmoCapacity = 120;
-    [SerializeField] private int maxMagazineCapacity = 30;
-
     [SerializeField] private TextMeshProUGUI text;
 
     private int currentAmmo;
@@ -38,7 +38,7 @@ public class PlayerShoot : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (_continuous)
         {
@@ -60,12 +60,7 @@ public class PlayerShoot : MonoBehaviour
                     _timeLastFire = Time.time;
 
                 }
-            } else
-            {
-
-            }
-
-            
+            } 
         }        
     }
 
@@ -112,6 +107,7 @@ public class PlayerShoot : MonoBehaviour
         {
             AudioManager.Instance.StopQuickAudio();
             StopCoroutine(reloadCourotine);
+            canShoot = true;
         }
     }
 
@@ -136,48 +132,64 @@ public class PlayerShoot : MonoBehaviour
         else
         {
             text.SetText("<b>Ammo:</b> Infinite");
-            playerWeapon.SwitchWeapon(Weapon.item_pistol);
+            playerWeapon.SwitchWeapon(Weapon.item_pistol, null);
         }
 
         canShoot = true;  // Enable shooting again
         reloadCourotine = null;
     }
+
     private void Reload()
     {
         AudioManager.Instance.PlayQuickAudio(reloadAudio);
         reloadCourotine = StartCoroutine(ReloadCourotine());
     }
 
+    public void SetWeapon(WeaponItem newWeaponItem)
+    {
+        maxMagazineCapacity = currentMag = newWeaponItem.magazineSize;
+        maxAmmoCapacity = currentAmmo = newWeaponItem.ammoSize;
+        timeBetweenShots = newWeaponItem.timeBetweenShots;
+        bulletDamage = newWeaponItem.damage;
+
+        text.SetText($"<b>Ammo:</b> {currentMag}/{currentAmmo}");
+    }
+
+    public void SetWeaponToPistol()
+    {
+        text.SetText($"<b>Ammo:</b> Infinite");
+    }
+
     public void FireBullet()
     {
+        GameObject bullet = playerWeapon.GetCurrentWeapon() == Weapon.item_pistol ? pistolBullet : smgBullet;
+
         GameObject newBullet = Instantiate(bullet, offset.position, transform.rotation);
         Rigidbody2D rb = newBullet.GetComponent<Rigidbody2D>();
 
         rb.velocity = bulletSpeed * transform.right;
     }
 
-    public void SetAmmo(int newMagSize, int newAmmoSize)
+    public int GetDamage()
     {
-        maxMagazineCapacity = currentMag = newMagSize;
-        maxAmmoCapacity = currentAmmo = newAmmoSize;
-
-        text.SetText($"<b>Ammo:</b> {currentMag}/{currentAmmo}");
+        return bulletDamage;
     }
 
     private void FireShotgun()
     {
-        GameObject centerBullet = Instantiate(bullet, offset.position, transform.rotation);
+        GameObject centerBullet = Instantiate(shotgunBullet, offset.position, transform.rotation);
         Rigidbody2D centerBulletRB = centerBullet.GetComponent<Rigidbody2D>();
-        centerBulletRB.velocity = bulletSpeed * transform.right;
 
-        float angle = 15f; // Adjust this value to control the angle of the angled bullets
+        float angle = 8f; // Adjust this value to control the angle of the angled bullets
 
-        GameObject angledBullet1 = Instantiate(bullet, offset.position, transform.rotation * Quaternion.Euler(0f, 0f, angle));
+        GameObject angledBullet1 = Instantiate(shotgunBullet, offset.position, transform.rotation * Quaternion.Euler(0f, 0f, angle));
         Rigidbody2D angledBullet1RB = angledBullet1.GetComponent<Rigidbody2D>();
-        angledBullet1RB.velocity = Quaternion.Euler(0f, 0f, angle) * transform.right * bulletSpeed;
 
-        GameObject angledBullet2 = Instantiate(bullet, offset.position, transform.rotation * Quaternion.Euler(0f, 0f, -angle));
+        GameObject angledBullet2 = Instantiate(shotgunBullet, offset.position, transform.rotation * Quaternion.Euler(0f, 0f, -angle));
         Rigidbody2D angledBullet2RB = angledBullet2.GetComponent<Rigidbody2D>();
+
+        centerBulletRB.velocity = bulletSpeed * transform.right;
+        angledBullet1RB.velocity = Quaternion.Euler(0f, 0f, angle) * transform.right * bulletSpeed;
         angledBullet2RB.velocity = Quaternion.Euler(0f, 0f, -angle) * transform.right * bulletSpeed;
     }
 

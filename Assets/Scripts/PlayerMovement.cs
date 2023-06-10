@@ -28,11 +28,8 @@ public class PlayerMovement : MonoBehaviour
         //playerRb.MovePosition(playerRb.position + moveInput * speed * Time.fixedDeltaTime);
         targetVelocity = Vector2.Lerp(targetVelocity, moveInput * speed, smoothing);
         playerRb.velocity = targetVelocity;
-
         animator.SetBool("isMoving", playerRb.velocity.magnitude > 0f);
-
         previousPosition = playerRb.position;
-
         FaceTowardsMouse();
     }
 

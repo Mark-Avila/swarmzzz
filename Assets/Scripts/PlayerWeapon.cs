@@ -13,35 +13,40 @@ public class PlayerWeapon : MonoBehaviour
 {
     [SerializeField] private PlayerShoot playerShoot;
 
-    const int maxShotgunMag = 4;
-    const int maxShotgunAmmo = 20;
-    const int maxSmgMag = 20;
-    const int maxSmgAmmo = 120;
+    //[SerializeField] private int maxShotgunMag = 4;
+    //[SerializeField] private int maxShotgunAmmo = 20;
+    //[SerializeField] private int maxSmgMag = 20;
+    //[SerializeField] private int maxSmgAmmo = 120;
 
+    [SerializeField] private int damage = 1;
     private Weapon currentWeapon;
+    
 
     private void Start()
     {
         currentWeapon = Weapon.item_pistol;
     }
 
-    public void SwitchWeapon(Weapon newWeapon)
+    #nullable enable
+    public void SwitchWeapon(Weapon weaponTag, WeaponItem? weaponInfo)
     {
-        currentWeapon = newWeapon;
+        currentWeapon = weaponTag;
 
-        switch (currentWeapon)
+        if (weaponInfo != null)
         {
-            case Weapon.item_smg:
-                playerShoot.ResetReload();
-                playerShoot.SetAmmo(maxSmgMag, maxSmgAmmo);
-                playerShoot.setTimeBetweenShots(0.1f);
-                break;
-            case Weapon.item_shotgun:
-                playerShoot.ResetReload();
-                playerShoot.SetAmmo(maxShotgunMag, maxShotgunAmmo);
-                playerShoot.setTimeBetweenShots(0.5f);
-                break;
+            playerShoot.ResetReload();
+            playerShoot.SetWeapon(weaponInfo);
+            damage = weaponInfo.damage;
         }
+        else
+        {
+            playerShoot.SetWeaponToPistol();
+        }
+    }
+
+    public int GetDamage()
+    {
+        return damage;
     }
 
     public Weapon GetCurrentWeapon()
