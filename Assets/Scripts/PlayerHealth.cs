@@ -7,7 +7,11 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 20;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private float damageCooldown = 0.5f;
+    [SerializeField] private EnemyFlash playerFlash;
+
     private int currentHealth;
+    private bool canTakeDamage = true;
 
     private void Start()
     {
@@ -16,18 +20,16 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("zombie"))
+        if (canTakeDamage)
         {
-            Damage(1);
-            return;
-        }
-        else if (collision.gameObject.CompareTag("alien"))
-        {
-            Damage(3);
-        }
-        else if (collision.gameObject.CompareTag("beetle"))
-        {
-            Damage(1);
+            if (collision.gameObject.CompareTag("zombie") || collision.gameObject.CompareTag("beetle"))
+            {
+                Damage(1);
+            }
+            else if (collision.gameObject.CompareTag("alien"))
+            {
+                Damage(3);
+            }
         }
 
         text.SetText($"Health: {currentHealth}/{maxHealth}");
@@ -46,6 +48,8 @@ public class PlayerHealth : MonoBehaviour
     public void Damage(int amount)
     {
         currentHealth -= amount;
+        StartCoroutine(StartDamageCooldown());
+        playerFlash.FlashSprite();
         if (currentHealth < 0)
         {
             currentHealth = 0;
@@ -64,5 +68,16 @@ public class PlayerHealth : MonoBehaviour
     public float GetHealthPercentage()
     {
         return (float)currentHealth / maxHealth;
+    }
+
+    private IEnumerator StartDamageCooldown()
+    {
+        canTakeDamage = false;
+
+        // Wait for the cooldown duration
+        yield return new WaitForSeconds(damageCooldown);
+
+        // Cooldown complete, allow player to take damage again
+        canTakeDamage = true;
     }
 }
