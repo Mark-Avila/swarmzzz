@@ -21,6 +21,11 @@ public class BulletMovement : MonoBehaviour
             enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
+
+        if (collision.CompareTag("obstacles"))
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()

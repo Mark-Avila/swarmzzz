@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float damageCooldown = 0.5f;
     [SerializeField] private EnemyFlash playerFlash;
+    [SerializeField] private AudioClip[] playerHurtAudios;
 
     private int currentHealth;
     private bool canTakeDamage = true;
@@ -25,14 +26,25 @@ public class PlayerHealth : MonoBehaviour
             if (collision.gameObject.CompareTag("zombie") || collision.gameObject.CompareTag("beetle"))
             {
                 Damage(1);
+                PlayHurtSound();
             }
             else if (collision.gameObject.CompareTag("alien"))
             {
                 Damage(3);
+                PlayHurtSound();
             }
+
         }
 
         text.SetText($"Health: {currentHealth}/{maxHealth}");
+    }
+
+    private void PlayHurtSound()
+    {
+        int randomIndex = Random.Range(0, playerHurtAudios.Length);
+        AudioClip randomHurtSound = playerHurtAudios[randomIndex];
+
+        AudioManager.Instance.PlayQuickAudio(randomHurtSound);
     }
 
     public int GetMaxHealth()
