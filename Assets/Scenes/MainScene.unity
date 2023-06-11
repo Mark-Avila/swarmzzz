@@ -43852,6 +43852,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1242944974}
     - target: {fileID: 688138053, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
+      propertyPath: playerDeadAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 993b843cf0ef6e548a4cc694d6519d18, type: 3}
+    - target: {fileID: 688138053, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
       propertyPath: playerHurtAudios.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -43863,6 +43867,10 @@ PrefabInstance:
       propertyPath: playerHurtAudios.Array.data[1]
       value: 
       objectReference: {fileID: 8300000, guid: cd8f8335893cb7f4697eb373f53ff04e, type: 3}
+    - target: {fileID: 688138054, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1158438311, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
       propertyPath: light2D
       value: 
@@ -43929,11 +43937,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8662144393222257703, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
       propertyPath: flashCount
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8662144393222257703, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
       propertyPath: flashDuration
-      value: 0.5
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}

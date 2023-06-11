@@ -33,7 +33,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
         if (canTakeDamage && isAlive)
         {
@@ -57,7 +57,6 @@ public class PlayerHealth : MonoBehaviour
     {
         int randomIndex = Random.Range(0, playerHurtAudios.Length);
         AudioClip randomHurtSound = playerHurtAudios[randomIndex];
-
         AudioManager.Instance.PlayQuickAudio(randomHurtSound);
     }
 
