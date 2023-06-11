@@ -10,8 +10,10 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float damageCooldown = 0.5f;
     [SerializeField] private EnemyFlash playerFlash;
     [SerializeField] private AudioClip[] playerHurtAudios;
+    [Tooltip("Player animator"), SerializeField] private Animator animator;
 
     private int currentHealth;
+    private bool isAlive = true;
     private bool canTakeDamage = true;
 
     private void Start()
@@ -19,9 +21,18 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    private void FixedUpdate()
+    {
+        if (currentHealth <= 0)
+        {
+            animator.SetBool("isDead", true);
+            isAlive = false;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (canTakeDamage)
+        if (canTakeDamage && isAlive)
         {
             if (collision.gameObject.CompareTag("zombie") || collision.gameObject.CompareTag("beetle"))
             {

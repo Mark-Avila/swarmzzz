@@ -9,6 +9,7 @@ TagManager:
   - beetle
   - alien
   - item_smg
+  - obstacles
   layers:
   - Default
   - TransparentFX
