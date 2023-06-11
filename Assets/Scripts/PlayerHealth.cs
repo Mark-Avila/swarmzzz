@@ -10,10 +10,12 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float damageCooldown = 0.5f;
     [SerializeField] private EnemyFlash playerFlash;
     [SerializeField] private AudioClip[] playerHurtAudios;
+    [SerializeField] private AudioClip playerDeadAudio;
     [Tooltip("Player animator"), SerializeField] private Animator animator;
 
     private int currentHealth;
     private bool isAlive = true;
+    
     private bool canTakeDamage = true;
 
     private void Start()
@@ -23,9 +25,10 @@ public class PlayerHealth : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && isAlive)
         {
             animator.SetBool("isDead", true);
+            AudioManager.Instance.PlayQuickAudio(playerDeadAudio);
             isAlive = false;
         }
     }
