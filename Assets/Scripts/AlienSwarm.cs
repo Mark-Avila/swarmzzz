@@ -26,8 +26,7 @@ public class AlienSwarm : MonoBehaviour
     void Start()
     {
         InvokeRepeating(nameof(ResetValues), 5f, 5f);
-
-        AudioManager.Instance.PlayAudioClip(alienAudio);
+        AudioManager.Instance.PlayAudioClip(alienAudio, 0.25f);
     }
 
     // Start is called before the first frame update

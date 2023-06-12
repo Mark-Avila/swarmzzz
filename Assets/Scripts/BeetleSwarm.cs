@@ -94,7 +94,7 @@ public class BeetleSwarm : MonoBehaviour
     {
         InvokeRepeating(nameof(ResetValues), 3f, 3f);
 
-        AudioManager.Instance.PlayAudioClip(beetlesAudio);
+        AudioManager.Instance.PlayAudioClip(beetlesAudio, 0.25f);
     }
 
     private void Update()

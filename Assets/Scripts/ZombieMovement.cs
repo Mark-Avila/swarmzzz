@@ -22,10 +22,17 @@ public class ZombieMovement : MonoBehaviour
 
     public void MoveTowards(Vector2 targetPosition, float maxSpeed)
     {
-        //// Define a small offset value to add to the starting position of each raycast
-        Vector2 direction = targetPosition - rb.position;
-        rb.AddForce(maxSpeed * 10 * Time.fixedDeltaTime * direction);
-        FaceTowardsVelocity();
+        ////    Prevents enemies from moving right after instantiating
+        ////    
+        ////    (I don't know why this happens trust me an 
+        ////    error pops up if I remove this)
+        if (rb != null)
+        {
+            // Define a small offset value to add to the starting position of each raycast
+            Vector2 direction = targetPosition - rb.position;
+            rb.AddForce(maxSpeed * 10 * Time.fixedDeltaTime * direction);
+            FaceTowardsVelocity();
+        }
     }
 
     private void MoveTowardsOld(Vector2 targetPosition, float maxSpeed)

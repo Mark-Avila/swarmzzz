@@ -49,7 +49,6 @@ public class PlayerHealth : MonoBehaviour
             }
 
         }
-
         text.SetText($"Health: {currentHealth}/{maxHealth}");
     }
 

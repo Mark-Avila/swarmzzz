@@ -27,12 +27,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayAudioClip(AudioClip clip)
+    #nullable enable
+    public void PlayAudioClip(AudioClip clip, float? volume)
     {
         AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
         newAudioSource.clip = clip;
         newAudioSource.loop = true;
-        newAudioSource.volume = 0.25f;
+        newAudioSource.volume = volume ?? 0.25f;
         newAudioSource.Play();
 
         audioSources.Add(newAudioSource);

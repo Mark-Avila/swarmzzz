@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ZombieSwarm : MonoBehaviour
 {
-    [SerializeField] private GameObject target; // The player GameObject
+    //[SerializeField] private GameObject target; // The player GameObject
     [SerializeField] private GameObject zombie;
-    [SerializeField] private int maxZombies = 5;
+    [SerializeField] private int maxZombies;
     [SerializeField] private float maxSpeed; // Maximum speed of the zombies
     [SerializeField] private float maxForce; // Maximum force that can be applied to the zombies
     [SerializeField] private AudioClip zombieAudio; // Maximum force that can be applied to the zombies
@@ -21,9 +21,12 @@ public class ZombieSwarm : MonoBehaviour
     private float gBestFitness;
     private Rigidbody2D targetRb;
     private int swarmSize;
+    private GameObject target;
 
-    void Awake()
+    void Start()
     {
+        InvokeRepeating(nameof(ResetValues), 0.5f, 0.5f);
+
         // Initialize the zombies list
         zombies = new List<ZombieMovement>();
 
@@ -34,8 +37,8 @@ public class ZombieSwarm : MonoBehaviour
             zombies.Add(newZombie);
         }
 
+        target = GameObject.FindWithTag("Player");
         swarmSize = zombies.Count;
-
         targetRb = target.GetComponent<Rigidbody2D>();
 
         // Initialize the particle swarm optimization parameters
@@ -53,13 +56,59 @@ public class ZombieSwarm : MonoBehaviour
             pBestPositions[i] = positions[i];
             pBestFitness[i] = Mathf.Infinity;
         }
+
+        AudioManager.Instance.PlayAudioClip(zombieAudio, 0.05f);
     }
+    
 
-    void Start()
+    private void Update()
     {
-        InvokeRepeating(nameof(ResetValues), 0.5f, 0.5f);
+        int count = transform.childCount;
 
-        AudioManager.Instance.PlayAudioClip(zombieAudio);
+        if (count == 0)
+        {
+            AudioManager.Instance.StopAudioClip(zombieAudio);
+            Destroy(gameObject);
+        }
+    }
+    void FixedUpdate()
+    {
+        // Update the positions and velocities of the zombies using particle swarm optimization
+        for (int i = 0; i < swarmSize; i++)
+        {
+            Vector2 predictedPosition = (Vector2)target.transform.position + targetRb.velocity;
+
+            // Calculate the fitness of the current zombie
+            float fitness = Vector2.Distance(positions[i], predictedPosition);
+
+            // Update the personal best position and fitness of the current zombie
+            if (fitness < pBestFitness[i])
+            {
+                pBestPositions[i] = positions[i];
+                pBestFitness[i] = fitness;
+            }
+
+            // Update the global best position and fitness if necessary
+            if (fitness < gBestFitness)
+            {
+                gBestPosition = positions[i];
+                gBestFitness = fitness;
+            }
+
+            // Calculate the new velocity of the current zombie
+            Vector2 acceleration = (pBestPositions[i] - positions[i]) + (gBestPosition - positions[i]);
+            acceleration = Vector2.ClampMagnitude(acceleration, maxForce);
+            velocities[i] = Vector2.ClampMagnitude(velocities[i] + acceleration, maxSpeed);
+
+            // Update the position of the current zombie
+            positions[i] += velocities[i] * Time.fixedDeltaTime;
+
+            if (zombies[i])
+            {
+                Vector2 newPosition = positions[i];
+                zombies[i].MoveTowards(newPosition, maxSpeed);
+            }
+        }
     }
 
     void ResetValues()
@@ -96,17 +145,6 @@ public class ZombieSwarm : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        int count = transform.childCount;
-
-        if (count == 0)
-        {
-            AudioManager.Instance.StopAudioClip(zombieAudio);
-            Destroy(gameObject);
-        }
-    }
-
     private void ResetZombies()
     {
         int count = transform.childCount;
@@ -132,42 +170,13 @@ public class ZombieSwarm : MonoBehaviour
         return newZombie;
     }
 
-    void FixedUpdate()
+    public void SetTarget(GameObject target)
     {
-        // Update the positions and velocities of the zombies using particle swarm optimization
-        for (int i = 0; i < swarmSize; i++)
-        {
-            Vector2 predictedPosition = (Vector2)target.transform.position + targetRb.velocity;
+        this.target = target;
+    }
 
-            // Calculate the fitness of the current zombie
-            float fitness = Vector2.Distance(positions[i], predictedPosition);
-
-            // Update the personal best position and fitness of the current zombie
-            if (fitness < pBestFitness[i])
-            {
-                pBestPositions[i] = positions[i];
-                pBestFitness[i] = fitness;
-            }
-
-            // Update the global best position and fitness if necessary
-            if (fitness < gBestFitness)
-            {
-                gBestPosition = positions[i];
-                gBestFitness = fitness;
-            }
-
-            // Calculate the new velocity of the current zombie
-            Vector2 acceleration = (pBestPositions[i] - positions[i]) + (gBestPosition - positions[i]);
-            acceleration = Vector2.ClampMagnitude(acceleration, maxForce);
-            velocities[i] = Vector2.ClampMagnitude(velocities[i] + acceleration, maxSpeed);
-
-            // Update the position of the current zombie
-            positions[i] += velocities[i] * Time.fixedDeltaTime;
-
-            if (zombies[i])
-            {
-                zombies[i].MoveTowards(positions[i], maxSpeed);
-            }
-        }
+    public void SetNumberOfEnemies(int number)
+    {
+        this.maxZombies = number;
     }
 }
