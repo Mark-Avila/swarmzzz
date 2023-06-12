@@ -37,19 +37,21 @@ public class PlayerHealth : MonoBehaviour
     {
         if (canTakeDamage && isAlive)
         {
-            if (collision.gameObject.CompareTag("zombie") || collision.gameObject.CompareTag("beetle"))
-            {
+            if (collision.gameObject.CompareTag("zombie"))
                 Damage(1);
-                PlayHurtSound();
-            }
             else if (collision.gameObject.CompareTag("alien"))
-            {
                 Damage(3);
-                PlayHurtSound();
-            }
 
         }
-        text.SetText($"Health: {currentHealth}/{maxHealth}");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (canTakeDamage && isAlive)
+        {
+            if (collision.gameObject.CompareTag("beetle"))
+                Damage(1);
+        }
     }
 
     private void PlayHurtSound()
@@ -74,6 +76,8 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= amount;
         StartCoroutine(StartDamageCooldown());
         playerFlash.FlashSprite();
+        PlayHurtSound();
+        text.SetText($"Health: {currentHealth}/{maxHealth}");
         if (currentHealth < 0)
         {
             currentHealth = 0;

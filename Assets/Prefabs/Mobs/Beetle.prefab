@@ -199,6 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8221281651726995510}
   - component: {fileID: 8221281651726995509}
+  - component: {fileID: 3091680043229942878}
   m_Layer: 9
   m_Name: Movement
   m_TagString: Untagged
@@ -228,10 +229,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8221281651726995511}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a89c4e61188ef2c4e9858c71c8cf3017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  parent: {fileID: 8221281651460832036}
+--- !u!114 &3091680043229942878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8221281651726995511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a41dd73a793364ea6024c70421ccd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   parent: {fileID: 8221281651460832036}

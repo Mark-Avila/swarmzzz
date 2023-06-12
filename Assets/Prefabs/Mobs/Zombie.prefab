@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 457593667}
   - component: {fileID: 457593668}
+  - component: {fileID: 6312030785610887454}
   m_Layer: 8
   m_Name: Movement
   m_TagString: Untagged
@@ -39,13 +40,26 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 457593666}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d43a06230c0b79c4ea0235e220df7f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7080028334194159346, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-  maxRayDistance: 1
+  parent: {fileID: 4041760623250350980}
+--- !u!114 &6312030785610887454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457593666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a41dd73a793364ea6024c70421ccd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7080028334194159346, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
   parent: {fileID: 4041760623250350980}
 --- !u!1 &2763139666804138972
 GameObject:

@@ -28,7 +28,7 @@ public class EnemySpawnManager : MonoBehaviour
                 continue;
 
             GameObject newSwarm = Instantiate(swarm, spawnPointPosition, Quaternion.identity);
-            newSwarm.GetComponent<ZombieSwarm>().SetNumberOfEnemies(2);
+            newSwarm.GetComponent<EnemySwarm>().SetNumberOfEnemies(10);
         }
     }
 }
