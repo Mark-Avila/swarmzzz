@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private int maxHealth = 20;
+    [SerializeField] private int maxHealth;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float damageCooldown = 0.5f;
     [SerializeField] private EnemyFlash playerFlash;
@@ -21,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        text.SetText($"Health: {currentHealth}/{maxHealth}");
     }
 
     private void FixedUpdate()

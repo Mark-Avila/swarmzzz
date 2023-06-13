@@ -48,6 +48,6 @@ MonoBehaviour:
   number: 10
   maxSpeed: 20
   maxForce: 100
-  enemyAudio: {fileID: 8300000, guid: 2cb45f13d9a2d2e4bbb0e5e2bba5d1fb, type: 3}
+  enemyAudio: {fileID: 8300000, guid: 20372cff3f480044199fadede56f9fc8, type: 3}
   useMovePosition: 1
   resetPsoTime: 5

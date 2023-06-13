@@ -8,12 +8,14 @@ public class EnemyHitpoints : MonoBehaviour
     [SerializeField] private GameObject parent;
     [SerializeField] private float onHitForce = 5f;
 
+    private EnemySpawnManager spawnManager;
     private int damage;
     private Rigidbody2D rb;
     private EnemyFlash enemyFlash;
 
     private void Start()
     {
+        spawnManager = GameObject.FindWithTag("spawn_manager").GetComponent<EnemySpawnManager>();
         enemyFlash = parent.GetComponent<EnemyFlash>();
         rb = parent.GetComponent<Rigidbody2D>();
     }
@@ -30,6 +32,11 @@ public class EnemyHitpoints : MonoBehaviour
         {
             enemyFlash.FlashSprite();
         }
+    }
+
+    private void OnDestroy()
+    {
+        spawnManager.DecreaseEnemy();
     }
 
     public void Bump(Vector2 direction)
