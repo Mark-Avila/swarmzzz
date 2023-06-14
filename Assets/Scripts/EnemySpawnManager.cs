@@ -6,10 +6,11 @@ using UnityEngine;
 public class EnemySpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] swarms;
-    [Tooltip("Initial No. of Enemies per SP"), SerializeField] private int perWave = 1;
     [SerializeField] private TextMeshProUGUI enemiesText;
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private ItemSpawnManager itemSpawn;
+    [Tooltip("Max initial number of Enemies"), SerializeField] private int maxEnemies = 3; 
+    [Tooltip("Minimum initial number of Enemies"), SerializeField] private int minEnemies = 1;
 
     private Camera mainCamera;
     private int numberOfEnemies;
@@ -19,11 +20,11 @@ public class EnemySpawnManager : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        SetNumberOfEnemies(perWave);
         enemiesText.SetText($"Enemies: {numberOfEnemies}");
         waveText.SetText($"Wave: {waveNumber}");
 
-        SpawnEnemies(perWave);
+        SpawnEnemies(minEnemies, maxEnemies);
+
         Debug.Log($"Enemies in wave {waveNumber}: {numberOfEnemies}");
     }
 
@@ -39,11 +40,13 @@ public class EnemySpawnManager : MonoBehaviour
     private void NextWave()
     {
         waveNumber++;
-        perWave += waveNumber;
         itemSpawn.SetMaxItemsCount(itemSpawn.GetMaxItemsCount() + 1);
         itemSpawn.SpawnItems();
-        SetNumberOfEnemies(perWave);
-        SpawnEnemies(perWave);
+
+        maxEnemies++;
+        minEnemies++;
+
+        SpawnEnemies(minEnemies, maxEnemies);
 
         Debug.Log($"Enemies in wave {waveNumber}: {numberOfEnemies}");
     }
@@ -66,12 +69,12 @@ public class EnemySpawnManager : MonoBehaviour
 
     private int GetSwarmIndex()
     {
-        if (waveNumber < 2)
+        if (waveNumber <= 2)
         {
             // Only allow index 0 if waveNumber is less than 2
             return 0;
         }
-        else if (waveNumber < 4)
+        else if (waveNumber <= 5)
         {
             // Allow indices 0 and 1 if waveNumber is less than 4
             return Random.Range(0, 1);
@@ -102,8 +105,10 @@ public class EnemySpawnManager : MonoBehaviour
         }
     }
 
-    private void SpawnEnemies(int count)
+    private void SpawnEnemies(int min, int max)
     {
+        int newNumberOfEnemies = 0;
+
         foreach (Transform spawnPoint in transform)
         {
             Vector2 spawnPointPosition = spawnPoint.position;
@@ -114,7 +119,11 @@ public class EnemySpawnManager : MonoBehaviour
 
             int swarmIndex = GetSwarmIndex();
             GameObject newSwarm = Instantiate(swarms[waveNumber >= 2 ? swarmIndex : 0], spawnPointPosition, Quaternion.identity);
-            newSwarm.GetComponent<EnemySwarm>().SetNumberOfEnemies(count);
+            int spawnNum = Random.Range(min, max);
+            newSwarm.GetComponent<EnemySwarm>().SetNumberOfEnemies(spawnNum);
+            newNumberOfEnemies += spawnNum;
         }
+
+        numberOfEnemies = newNumberOfEnemies;
     }
 }

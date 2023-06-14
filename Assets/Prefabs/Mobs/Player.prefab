@@ -128,6 +128,11 @@ MonoBehaviour:
   text: {fileID: 0}
   damageCooldown: 0.5
   playerFlash: {fileID: 8662144393222257703}
+  playerHurtAudios:
+  - {fileID: 8300000, guid: 64295546b02dd8b418a0ac16d3a47cad, type: 3}
+  - {fileID: 8300000, guid: cd8f8335893cb7f4697eb373f53ff04e, type: 3}
+  playerDeadAudio: {fileID: 8300000, guid: 993b843cf0ef6e548a4cc694d6519d18, type: 3}
+  animator: {fileID: 7080028334194159357}
 --- !u!58 &688138054
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -138,7 +143,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -269,6 +274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 7080028334194159346}
+  animator: {fileID: 7080028334194159357}
+  light2D: {fileID: 1158438312}
 --- !u!1 &1514670185
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +473,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 490631811695707158}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.29, y: -0.03, z: 0}
+  m_LocalPosition: {x: 0.358, y: -0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -823,5 +830,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7080028334194159345}
   flashColor: {r: 1, g: 0, b: 0, a: 1}
-  flashDuration: 0.2
+  flashDuration: 0.15
   flashCount: 3

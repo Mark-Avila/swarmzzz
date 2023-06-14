@@ -157,6 +157,9 @@ public class PlayerShoot : MonoBehaviour
 
     public void SetWeaponToPistol()
     {
+        timeBetweenShots = 0.4f;
+        bulletDamage = 1;
+
         text.SetText($"<b>Ammo:</b> Infinite");
     }
 

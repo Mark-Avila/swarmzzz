@@ -42,8 +42,14 @@ public class ItemSpawnManager : MonoBehaviour
             if (screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
                 continue;
 
-            int itemIndex = Random.Range(0, items.Length - 1);
-            GameObject newItem = Instantiate(items[itemIndex], spawnPointPosition, Quaternion.identity);
+            // Check if an item already exists at the spawn point
+            bool itemExists = spawnPoint.GetComponentInChildren<WeaponPickup>() != null;
+            if (itemExists)
+                continue;
+
+            int itemIndex = Random.Range(0, items.Length);
+            Debug.Log(itemIndex);
+            GameObject newItem = Instantiate(items[itemIndex], spawnPointPosition, Quaternion.identity, spawnPoint);
             newItem.GetComponent<WeaponPickup>().SetPlayerWeapon(playerWeapon);
         }
     }
