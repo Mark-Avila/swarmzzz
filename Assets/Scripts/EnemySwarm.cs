@@ -66,7 +66,7 @@ public class EnemySwarm : MonoBehaviour
             pBestFitness[i] = Mathf.Infinity;
         }
 
-        AudioManager.Instance.PlayAudioClip(enemyAudio, enemyVolume);
+        AudioManager.Instance.PlayAudioClip(enemyAudio, 0.1f);
     }
 
 

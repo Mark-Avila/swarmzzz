@@ -27,9 +27,21 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+
     #nullable enable
     public void PlayAudioClip(AudioClip clip, float? volume)
     {
+        bool isAlreadyPlaying = false;
+
+        foreach (AudioSource audioSource in audioSources)
+        {
+            if (audioSource.clip == clip)
+                isAlreadyPlaying = true;
+        }
+
+        if (isAlreadyPlaying)
+            return;
+
         AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
         newAudioSource.clip = clip;
         newAudioSource.loop = true;

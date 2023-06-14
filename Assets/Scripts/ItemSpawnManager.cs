@@ -48,7 +48,6 @@ public class ItemSpawnManager : MonoBehaviour
                 continue;
 
             int itemIndex = Random.Range(0, items.Length);
-            Debug.Log(itemIndex);
             GameObject newItem = Instantiate(items[itemIndex], spawnPointPosition, Quaternion.identity, spawnPoint);
             newItem.GetComponent<WeaponPickup>().SetPlayerWeapon(playerWeapon);
         }

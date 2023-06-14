@@ -63,16 +63,19 @@ public class EnemySpawnManager : MonoBehaviour
     {
         if (waveNumber <= 2)
         {
+            Debug.Log("First is true");
             // Only allow index 0 if waveNumber is less than 2
             return 0;
         }
-        else if (waveNumber <= 5)
+        else if (waveNumber > 2 && waveNumber < 6)
         {
+            Debug.Log("second is true");
             // Allow indices 0 and 1 if waveNumber is less than 4
-            return Random.Range(0, 1);
+            return Random.Range(0, 2);
         }
         else
         {
+            Debug.Log("3rd is true");
             // Return the same way as before for waveNumber greater or equal to 4
             float totalProbability = 0f;
             for (int i = 0; i < swarms.Length; i++)

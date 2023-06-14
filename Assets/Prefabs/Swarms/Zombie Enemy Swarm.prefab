@@ -51,4 +51,4 @@ MonoBehaviour:
   enemyAudio: {fileID: 8300000, guid: c63cd96db38aa6d4886c41ff6f541155, type: 3}
   useMovePosition: 0
   resetPsoTime: 0.5
-  enemyVolume: 0.01
+  enemyVolume: 0.2
