@@ -4065,7 +4065,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4637518058044649889, guid: 4ceb7250c81b88346b18e6d5ceb1152c, type: 3}
       propertyPath: m_Name
-      value: Spawn points
+      value: Enemy spawn points
       objectReference: {fileID: 0}
     - target: {fileID: 4637518058044649889, guid: 4ceb7250c81b88346b18e6d5ceb1152c, type: 3}
       propertyPath: m_TagString
@@ -5067,17 +5067,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 889456807433811388, guid: 8c365f506487ca54da9aebf844af47a9, type: 3}
   m_PrefabInstance: {fileID: 1100039021}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1109099188 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1158438312, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-  m_PrefabInstance: {fileID: 490631812812711475}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1144903098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5843,11 +5832,6 @@ CanvasRenderer:
 --- !u!4 &1242944971 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7080028334194159346, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-  m_PrefabInstance: {fileID: 490631812812711475}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1242944974 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7080028334194159357, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
   m_PrefabInstance: {fileID: 490631812812711475}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1250722280
@@ -44334,42 +44318,6 @@ PrefabInstance:
       propertyPath: text
       value: 
       objectReference: {fileID: 1233879534}
-    - target: {fileID: 688138053, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1242944974}
-    - target: {fileID: 688138053, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: playerDeadAudio
-      value: 
-      objectReference: {fileID: 8300000, guid: 993b843cf0ef6e548a4cc694d6519d18, type: 3}
-    - target: {fileID: 688138053, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: playerHurtAudios.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 688138053, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: playerHurtAudios.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 64295546b02dd8b418a0ac16d3a47cad, type: 3}
-    - target: {fileID: 688138053, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: playerHurtAudios.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: cd8f8335893cb7f4697eb373f53ff04e, type: 3}
-    - target: {fileID: 688138054, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158438311, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: light2D
-      value: 
-      objectReference: {fileID: 1109099188}
-    - target: {fileID: 1158438311, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1242944974}
-    - target: {fileID: 490631811695707157, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.358
-      objectReference: {fileID: 0}
     - target: {fileID: 833488945299666884, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
       propertyPath: text
       value: 
@@ -44421,14 +44369,6 @@ PrefabInstance:
     - target: {fileID: 7080028334194159346, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8662144393222257703, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: flashCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8662144393222257703, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
-      propertyPath: flashDuration
-      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1ee516843006ff4fb9e5b769bc42a57, type: 3}
