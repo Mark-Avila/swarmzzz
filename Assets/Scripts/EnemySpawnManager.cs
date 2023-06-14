@@ -15,8 +15,6 @@ public class EnemySpawnManager : MonoBehaviour
     private Camera mainCamera;
     private int numberOfEnemies;
     private int waveNumber = 1;
-
-    // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main;
@@ -49,12 +47,6 @@ public class EnemySpawnManager : MonoBehaviour
         SpawnEnemies(minEnemies, maxEnemies);
 
         Debug.Log($"Enemies in wave {waveNumber}: {numberOfEnemies}");
-    }
-
-    public void SetNumberOfEnemies(int count)
-    {
-        int totalSpawnPoints = transform.childCount;
-        numberOfEnemies = count <= 0 ? totalSpawnPoints : count * totalSpawnPoints;
     }
 
     public void DecreaseEnemy()

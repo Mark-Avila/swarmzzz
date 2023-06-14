@@ -12,6 +12,7 @@ public class EnemySwarm : MonoBehaviour
     [Tooltip("Enemy loop audio"), SerializeField] private AudioClip enemyAudio; // Maximum force that can be applied to the enemys
     [Tooltip("Use MovePosition"), SerializeField] private bool useMovePosition = false;
     [Tooltip("Reset PSO time"), SerializeField] private float resetPsoTime = 0.5f;
+    [SerializeField] private float enemyVolume;
 
     private List<EnemyMovement> enemys; // List of all enemies in the swarm
     private List<EnemyHitpoints> enemyHits;
@@ -26,7 +27,6 @@ public class EnemySwarm : MonoBehaviour
     private Rigidbody2D targetRb;
     private int swarmSize;
     private GameObject target;
-
 
     void Start()
     {
@@ -66,7 +66,7 @@ public class EnemySwarm : MonoBehaviour
             pBestFitness[i] = Mathf.Infinity;
         }
 
-        AudioManager.Instance.PlayAudioClip(enemyAudio, 0.05f);
+        AudioManager.Instance.PlayAudioClip(enemyAudio, enemyVolume);
     }
 
 
