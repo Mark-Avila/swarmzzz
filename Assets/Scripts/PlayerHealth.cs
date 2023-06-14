@@ -21,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        text.SetText($"Health: {currentHealth}/{maxHealth}");
+        UpdateHealthText();
     }
 
     private void FixedUpdate()
@@ -55,6 +55,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void UpdateHealthText()
+    {
+        text.SetText($"Health: {currentHealth}/{maxHealth}");
+    }
+
     private void PlayHurtSound()
     {
         int randomIndex = Random.Range(0, playerHurtAudios.Length);
@@ -78,7 +83,7 @@ public class PlayerHealth : MonoBehaviour
         StartCoroutine(StartDamageCooldown());
         playerFlash.FlashSprite();
         PlayHurtSound();
-        text.SetText($"Health: {currentHealth}/{maxHealth}");
+        UpdateHealthText();
         if (currentHealth < 0)
         {
             currentHealth = 0;
@@ -92,6 +97,7 @@ public class PlayerHealth : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+        UpdateHealthText();
     }
 
     public float GetHealthPercentage()
