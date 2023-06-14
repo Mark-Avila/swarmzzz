@@ -34,6 +34,11 @@ public class EnemyHitpoints : MonoBehaviour
         }
     }
 
+    public void DestoryEnemy()
+    {
+        hitpoints = 0;
+    }
+
     private void OnDestroy()
     {
         spawnManager.DecreaseEnemy();

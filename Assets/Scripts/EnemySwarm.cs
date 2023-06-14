@@ -14,6 +14,7 @@ public class EnemySwarm : MonoBehaviour
     [Tooltip("Reset PSO time"), SerializeField] private float resetPsoTime = 0.5f;
 
     private List<EnemyMovement> enemys; // List of all enemies in the swarm
+    private List<EnemyHitpoints> enemyHits;
 
     // Particle Swarm Optimization parameters
     private Vector2[] positions;
@@ -26,16 +27,21 @@ public class EnemySwarm : MonoBehaviour
     private int swarmSize;
     private GameObject target;
 
+
     void Start()
     {
         InvokeRepeating(nameof(ResetPSO), resetPsoTime, resetPsoTime);
 
         // Initialize the enemys list
         enemys = new List<EnemyMovement>();
+        enemyHits = new List<EnemyHitpoints>();
 
         for (int i = 0; i < number; i++)
         {
             GameObject instEnemy = CreateEnemy();
+
+            EnemyHitpoints hitpoints = instEnemy.GetComponentInChildren<EnemyHitpoints>();
+            enemyHits.Add(hitpoints);
             EnemyMovement newEnemy = instEnemy.GetComponentInChildren<EnemyMovement>();
             enemys.Add(newEnemy);
         }
@@ -73,7 +79,22 @@ public class EnemySwarm : MonoBehaviour
             AudioManager.Instance.StopAudioClip(enemyAudio);
             Destroy(gameObject);
         }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            KillSwarm();
+        }
     }
+
+    //For Debugging purposes
+    public void KillSwarm()
+    {
+        foreach (EnemyHitpoints enemyHit in enemyHits)
+        {
+            enemyHit.TakeDamage(3);
+        }
+    }
+
     void FixedUpdate()
     {
         // Update the positions and velocities of the enemys using particle swarm optimization

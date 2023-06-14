@@ -10,6 +10,7 @@ TagManager:
   - alien
   - item_smg
   - obstacles
+  - spawn_manager
   layers:
   - Default
   - TransparentFX

@@ -20,8 +20,7 @@ public class PlayerWeapon : MonoBehaviour
 
     [SerializeField] private int damage = 1;
     private Weapon currentWeapon;
-    
-
+   
     private void Start()
     {
         currentWeapon = Weapon.item_pistol;

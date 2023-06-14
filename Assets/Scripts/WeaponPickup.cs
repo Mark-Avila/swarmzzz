@@ -18,4 +18,9 @@ public class WeaponPickup : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void SetPlayerWeapon(PlayerWeapon playerWeaponInstance)
+    {
+        playerWeapon = playerWeaponInstance;
+    }
 }

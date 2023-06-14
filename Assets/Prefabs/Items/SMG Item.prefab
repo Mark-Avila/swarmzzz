@@ -198,6 +198,7 @@ MonoBehaviour:
   weapon: 2
   playerWeapon: {fileID: 0}
   pickUpAudio: {fileID: 8300000, guid: ed8ff4503bc91d047861151e34d121ee, type: 3}
+  weaponItem: {fileID: 7273772215084408737}
 --- !u!114 &7273772215084408737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3151038b11a76894bb8526665c66b7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoSize: 30
-  magazineSize: 150
+  ammoSize: 150
+  magazineSize: 30
   damage: 1
-  fireRate: 0.2
+  timeBetweenShots: 0.1
