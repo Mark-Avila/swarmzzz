@@ -31,8 +31,8 @@ public class PlayerHealth : MonoBehaviour
         {
             animator.SetBool("isDead", true);
             AudioManager.Instance.PlayQuickAudio(playerDeadAudio);
-            gameOverScreen.ShowGameOverScreen();
             isAlive = false;
+            StartCoroutine(DeathCoroutine());
         }
     }
 
@@ -116,5 +116,11 @@ public class PlayerHealth : MonoBehaviour
 
         // Cooldown complete, allow player to take damage again
         canTakeDamage = true;
+    }
+
+    private IEnumerator DeathCoroutine()
+    {
+        yield return new WaitForSeconds(3.5f);
+        gameOverScreen.ShowGameOverScreen();
     }
 }
