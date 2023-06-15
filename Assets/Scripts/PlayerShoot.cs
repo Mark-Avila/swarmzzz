@@ -139,7 +139,7 @@ public class PlayerShoot : MonoBehaviour
         reloadCourotine = null;
     }
 
-    private void Reload()
+    public void Reload()
     {
         AudioManager.Instance.PlayQuickAudio(reloadAudio);
         reloadCourotine = StartCoroutine(ReloadCourotine());

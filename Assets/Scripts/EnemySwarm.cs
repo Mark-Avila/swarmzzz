@@ -30,6 +30,7 @@ public class EnemySwarm : MonoBehaviour
 
     void Start()
     {
+        //Reset PSO calculation to re-initialize PSO values
         InvokeRepeating(nameof(ResetPSO), resetPsoTime, resetPsoTime);
 
         // Initialize the enemys list
@@ -127,6 +128,7 @@ public class EnemySwarm : MonoBehaviour
             // Update the position of the current enemy
             positions[i] += velocities[i] * Time.fixedDeltaTime;
 
+            // If enemy instantiate 
             if (enemys[i])
             {
                 Vector2 newPosition = positions[i];

@@ -45,8 +45,6 @@ public class EnemySpawnManager : MonoBehaviour
         minEnemies++;
 
         SpawnEnemies(minEnemies, maxEnemies);
-
-        Debug.Log($"Enemies in wave {waveNumber}: {numberOfEnemies}");
     }
 
     public void DecreaseEnemy()
