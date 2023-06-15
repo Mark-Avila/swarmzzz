@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
 
     //Used for one-shot audio (eg. gun sounds, damage sounds)
     [SerializeField] private AudioSource quickAudio;
-    
+
     //Used for handling multiple long loop audio (zombie sound effects)
     private List<AudioSource> audioSources = new();
 
@@ -19,7 +19,6 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -27,8 +26,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-
-    #nullable enable
+#nullable enable
     public void PlayAudioClip(AudioClip clip, float? volume)
     {
         bool isAlreadyPlaying = false;
