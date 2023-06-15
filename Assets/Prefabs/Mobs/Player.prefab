@@ -132,6 +132,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 64295546b02dd8b418a0ac16d3a47cad, type: 3}
   - {fileID: 8300000, guid: cd8f8335893cb7f4697eb373f53ff04e, type: 3}
   playerDeadAudio: {fileID: 8300000, guid: 993b843cf0ef6e548a4cc694d6519d18, type: 3}
+  gameOverScreen: {fileID: 0}
   animator: {fileID: 7080028334194159357}
 --- !u!58 &688138054
 CircleCollider2D:

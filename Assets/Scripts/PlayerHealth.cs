@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private EnemyFlash playerFlash;
     [SerializeField] private AudioClip[] playerHurtAudios;
     [SerializeField] private AudioClip playerDeadAudio;
+    [SerializeField] private GameOverManager gameOverScreen;
     [Tooltip("Player animator"), SerializeField] private Animator animator;
 
     private int currentHealth;
@@ -30,6 +31,7 @@ public class PlayerHealth : MonoBehaviour
         {
             animator.SetBool("isDead", true);
             AudioManager.Instance.PlayQuickAudio(playerDeadAudio);
+            gameOverScreen.ShowGameOverScreen();
             isAlive = false;
         }
     }
