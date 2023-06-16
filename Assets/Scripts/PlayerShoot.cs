@@ -111,6 +111,24 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        // Subscribe to the event
+        PlayerHealth.playerStatusEvent += HandleOnDeath;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe from the event to avoid memory leaks
+        PlayerHealth.playerStatusEvent -= HandleOnDeath;
+    }
+
+    private void HandleOnDeath(bool isAlive)
+    {
+        if (!isAlive)
+            canShoot = false;
+    }
+
     private IEnumerator ReloadCourotine()
     {
         canShoot = false;  // Disable shooting

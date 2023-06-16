@@ -14,8 +14,23 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private GameOverManager gameOverScreen;
     [Tooltip("Player animator"), SerializeField] private Animator animator;
 
-    private int currentHealth;
+    public static event System.Action<bool> playerStatusEvent;
+
     private bool isAlive = true;
+
+    public bool IsAlive
+    {
+        get { return isAlive; }
+        set { 
+            if (isAlive != value)
+            {
+                isAlive = false;
+                playerStatusEvent?.Invoke(isAlive);
+            }
+        }
+    }
+
+    private int currentHealth;
     
     private bool canTakeDamage = true;
 
@@ -31,7 +46,7 @@ public class PlayerHealth : MonoBehaviour
         {
             animator.SetBool("isDead", true);
             AudioManager.Instance.PlayQuickAudio(playerDeadAudio);
-            isAlive = false;
+            IsAlive = false;
             StartCoroutine(DeathCoroutine());
         }
     }

@@ -15,24 +15,24 @@ public class EnemySpawnManager : MonoBehaviour
     private Camera mainCamera;
     private int numberOfEnemies;
     private int waveNumber = 1;
+
+    private float minEnemyVariantChance = 0.5f;
+    private float enemyVariantChance = 0.7f;
+
     void Start()
     {
         mainCamera = Camera.main;
-        enemiesText.SetText($"Enemies: {numberOfEnemies}");
         waveText.SetText($"Wave: {waveNumber}");
 
         SpawnEnemies(minEnemies, maxEnemies);
 
-        Debug.Log($"Enemies in wave {waveNumber}: {numberOfEnemies}");
+        enemiesText.SetText($"Enemies: {numberOfEnemies}");
     }
 
     private void Update()
     {
         if (numberOfEnemies <= 0)
             NextWave();
-
-        enemiesText.SetText($"Enemies: {numberOfEnemies}");
-        waveText.SetText($"Wave: {waveNumber}");
     }
 
     private void NextWave()
@@ -44,12 +44,24 @@ public class EnemySpawnManager : MonoBehaviour
         maxEnemies++;
         minEnemies++;
 
+        if (waveNumber == 5)
+            if (enemyVariantChance <= minEnemyVariantChance)
+                enemyVariantChance -= 0.1f;
+
+        if (waveNumber == 10)
+            if (enemyVariantChance <= minEnemyVariantChance)
+                enemyVariantChance -= 0.2f;
+
         SpawnEnemies(minEnemies, maxEnemies);
+
+        waveText.SetText($"Wave: {waveNumber}");
+        enemiesText.SetText($"Enemies: {numberOfEnemies}");
     }
 
     public void DecreaseEnemy()
     {
         numberOfEnemies--;
+        enemiesText.SetText($"Enemies: {numberOfEnemies}");
     }
 
     public int GetNumberOfEnemies()
@@ -61,40 +73,27 @@ public class EnemySpawnManager : MonoBehaviour
     {
         if (waveNumber <= 2)
         {
-            Debug.Log("First is true");
             // Only allow index 0 if waveNumber is less than 2
             return 0;
         }
-        else if (waveNumber > 2 && waveNumber < 6)
+        else if (waveNumber < 6)
         {
-            Debug.Log("second is true");
-            // Allow indices 0 and 1 if waveNumber is less than 4
+            // Allow indices 0 and 1 if waveNumber is less than 6
             return Random.Range(0, 2);
         }
         else
         {
-            Debug.Log("3rd is true");
-            // Return the same way as before for waveNumber greater or equal to 4
-            float totalProbability = 0f;
-            for (int i = 0; i < swarms.Length; i++)
+            float rngSpawn = Random.value;
+
+            if (rngSpawn <= enemyVariantChance)
             {
-                float probability = (waveNumber - 1) + (i + 1);
-                totalProbability += probability;
+                Debug.Log("Zero is true");
+                return 0;
             }
 
-            float randomValue = Random.Range(0f, totalProbability);
-
-            float cumulativeProbability = 0f;
-            for (int i = 0; i < swarms.Length; i++)
-            {
-                float probability = (waveNumber - 1) + (i + 1);
-                cumulativeProbability += probability;
-
-                if (randomValue <= cumulativeProbability)
-                    return i;
-            }
-
-            return swarms.Length - 1;
+            Debug.Log("Chance is true");
+            // Randomly select from the remaining indices (excluding index 0)
+            return Random.Range(1, swarms.Length);
         }
     }
 
