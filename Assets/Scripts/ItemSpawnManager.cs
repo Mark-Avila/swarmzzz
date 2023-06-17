@@ -43,7 +43,11 @@ public class ItemSpawnManager : MonoBehaviour
                 continue;
 
             // Check if an item already exists at the spawn point
-            bool itemExists = spawnPoint.GetComponentInChildren<WeaponPickup>() != null;
+            bool weaponExists = spawnPoint.GetComponentInChildren<WeaponPickup>() != null;
+            if (weaponExists)
+                continue;
+
+            bool itemExists = spawnPoint.GetComponentInChildren<HealthPickup>() != null;
             if (itemExists)
                 continue;
 

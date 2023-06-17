@@ -14,13 +14,11 @@ public class EnemySpawnManager : MonoBehaviour
     [Tooltip("Max initial number of Enemies"), SerializeField] private int maxEnemies = 3; 
     [Tooltip("Minimum initial number of Enemies"), SerializeField] private int minEnemies = 1;
 
-    private Camera mainCamera;
-    private int numberOfEnemies;
-
-    private int waveNumber = 1;
-
     private float minEnemyVariantChance = 0.5f;
     private float enemyVariantChance = 0.7f;
+    private Camera mainCamera;
+    private int numberOfEnemies;
+    private int waveNumber = 1;
     private bool canSpawn = true;
 
     void Start()
@@ -39,7 +37,9 @@ public class EnemySpawnManager : MonoBehaviour
         if (numberOfEnemies <= 0 && canSpawn)
         {
             canSpawn = false;
-            AudioManager.Instance.PlayQuickAudio(nextWaveAudio);
+            AudioManager instance = AudioManager.Instance;
+            instance.PlayQuickAudio(nextWaveAudio);
+            instance.SetBGMAudio(0f);
             headerText.SetText("Wave cleared");
             StartCoroutine(NextWaveCoroutine(3f));
         }
@@ -51,6 +51,7 @@ public class EnemySpawnManager : MonoBehaviour
         NextWave();
         headerText.SetText("");
         canSpawn = true;
+        AudioManager.Instance.SetBGMAudio(0.05f);
     }
 
     //private IEnumerator MuteBGMCoroutine(float delay)

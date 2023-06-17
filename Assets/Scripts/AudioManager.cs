@@ -87,11 +87,11 @@ public class AudioManager : MonoBehaviour
         quickAudio.PlayOneShot(clip);
     }
 
-    public void SetBGMAudio(AudioClip clip, float newVolume)
+    public void SetBGMAudio(float newVolume)
     {
         foreach (AudioSource audioSource in audioSources)
         {
-            if (audioSource.clip == clip)
+            if (audioSource.clip == bgm)
             {
                 audioSource.volume = newVolume;
                 break;
