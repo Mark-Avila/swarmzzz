@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI headerText;
+
     private void Start()
     {
         HideGameOverScreen();
@@ -13,6 +16,7 @@ public class GameOverManager : MonoBehaviour
     // Call this method to show the game over screen
     public void ShowGameOverScreen()
     {
+        headerText.SetText("Game Over");
         gameObject.SetActive(true);
     }
 

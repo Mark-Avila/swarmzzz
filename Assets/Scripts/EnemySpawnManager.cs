@@ -8,16 +8,20 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private GameObject[] swarms;
     [SerializeField] private TextMeshProUGUI enemiesText;
     [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private TextMeshProUGUI headerText;
     [SerializeField] private ItemSpawnManager itemSpawn;
+    [SerializeField] private AudioClip nextWaveAudio;
     [Tooltip("Max initial number of Enemies"), SerializeField] private int maxEnemies = 3; 
     [Tooltip("Minimum initial number of Enemies"), SerializeField] private int minEnemies = 1;
 
     private Camera mainCamera;
     private int numberOfEnemies;
+
     private int waveNumber = 1;
 
     private float minEnemyVariantChance = 0.5f;
     private float enemyVariantChance = 0.7f;
+    private bool canSpawn = true;
 
     void Start()
     {
@@ -27,13 +31,32 @@ public class EnemySpawnManager : MonoBehaviour
         SpawnEnemies(minEnemies, maxEnemies);
 
         enemiesText.SetText($"Enemies: {numberOfEnemies}");
+        headerText.SetText("");
     }
 
     private void Update()
     {
-        if (numberOfEnemies <= 0)
-            NextWave();
+        if (numberOfEnemies <= 0 && canSpawn)
+        {
+            canSpawn = false;
+            AudioManager.Instance.PlayQuickAudio(nextWaveAudio);
+            headerText.SetText("Wave cleared");
+            StartCoroutine(NextWaveCoroutine(3f));
+        }
     }
+
+    private IEnumerator NextWaveCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        NextWave();
+        headerText.SetText("");
+        canSpawn = true;
+    }
+
+    //private IEnumerator MuteBGMCoroutine(float delay)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //}
 
     private void NextWave()
     {

@@ -65,11 +65,8 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (canTakeDamage && isAlive)
-        {
-            if (collision.gameObject.CompareTag("beetle"))
+        if (canTakeDamage && isAlive && collision.gameObject.CompareTag("beetle"))
                 Damage(1);
-        }
     }
 
     private void UpdateHealthText()

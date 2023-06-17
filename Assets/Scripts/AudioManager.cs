@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
 
     //Used for one-shot audio (eg. gun sounds, damage sounds)
     [SerializeField] private AudioSource quickAudio;
+    [SerializeField] private AudioClip bgm;
 
     //Used for handling multiple long loop audio (zombie sound effects)
     private List<AudioSource> audioSources = new();
@@ -24,6 +25,11 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        PlayAudioClip(bgm, 0.05f);
     }
 
 #nullable enable
@@ -76,15 +82,21 @@ public class AudioManager : MonoBehaviour
         audioSources.Clear();
     }
 
-
-    //public void FixedUpdate()
-    //{
-    //    this.transform.position = listener.position;
-    //}
-
     public void PlayQuickAudio(AudioClip clip)
     {
         quickAudio.PlayOneShot(clip);
+    }
+
+    public void SetBGMAudio(AudioClip clip, float newVolume)
+    {
+        foreach (AudioSource audioSource in audioSources)
+        {
+            if (audioSource.clip == clip)
+            {
+                audioSource.volume = newVolume;
+                break;
+            }
+        }
     }
 
     public void StopQuickAudio()
