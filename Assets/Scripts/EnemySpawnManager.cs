@@ -54,11 +54,6 @@ public class EnemySpawnManager : MonoBehaviour
         AudioManager.Instance.SetBGMAudio(0.05f);
     }
 
-    //private IEnumerator MuteBGMCoroutine(float delay)
-    //{
-    //    yield return new WaitForSeconds(delay);
-    //}
-
     private void NextWave()
     {
         waveNumber++;

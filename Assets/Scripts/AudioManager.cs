@@ -99,6 +99,22 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void MuteAllClips()
+    {
+        foreach (AudioSource audioSource in audioSources)
+        {
+            audioSource.mute = true;
+        }
+    }
+
+    public void UnmuteAllClips()
+    {
+        foreach (AudioSource audioSource in audioSources)
+        {
+            audioSource.mute = false;
+        }
+    }
+
     public void StopQuickAudio()
     {
         quickAudio.Stop();

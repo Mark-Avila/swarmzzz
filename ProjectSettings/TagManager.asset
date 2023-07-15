@@ -22,8 +22,8 @@ TagManager:
   - Bullet
   - Ground Enemy
   - Flying Enemy
-  - 
-  - 
+  - Obstacle
+  - Enemy Collider
   - 
   - 
   - 

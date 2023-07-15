@@ -17,7 +17,7 @@ public class HealthPickup : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerHealth.Heal(3);
+            playerHealth.Heal(healPower);
             AudioManager.Instance.PlayQuickAudio(pickUpAudio);
             Destroy(gameObject);
         }

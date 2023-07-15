@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 316780583}
   - component: {fileID: 316780585}
   - component: {fileID: 316780586}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Movement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 688138052}
   - component: {fileID: 688138053}
   - component: {fileID: 688138054}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 1158438310}
   - component: {fileID: 1158438312}
   - component: {fileID: 1158438311}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1514670186}
   - component: {fileID: 1514670187}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 1992928745}
   - component: {fileID: 1992928746}
   - component: {fileID: 1992928747}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shoot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -459,7 +459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 490631811695707157}
   - component: {fileID: 1641676092}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Gun Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 3727920426102488623}
   - component: {fileID: 833488945299666884}
   - component: {fileID: 1415387508}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 7080028334194159357}
   - component: {fileID: -3475567860328260594}
   - component: {fileID: 8662144393222257703}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
